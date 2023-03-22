@@ -2,6 +2,7 @@ package book
 
 import (
 	"encoding/json"
+	"log"
 	domainBook "microservices/challenge-4-advance/domain/book"
 	domainErrors "microservices/challenge-4-advance/domain/errors"
 
@@ -141,6 +142,8 @@ func (r *Repository) Update(id uint, bookMap map[string]interface{}) (*domainBoo
 // Delete ... Delete book
 func (r *Repository) Delete(id int) (err error) {
 	tx := r.DB.Delete(&domainBook.Book{}, id)
+
+	log.Println("check ", tx)
 	if tx.Error != nil {
 		err = domainErrors.NewAppErrorWithType(domainErrors.UnknownError)
 		return

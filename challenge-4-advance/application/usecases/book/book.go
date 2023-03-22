@@ -5,7 +5,7 @@ import (
 	bookRepository "microservices/challenge-4-advance/infrastructure/repository/book"
 )
 
-// Service is a struct that contains the repository implementation for medicine use case
+// Service is a struct that contains the repository implementation for book use case
 type Service struct {
 	BookRepository bookRepository.Repository
 }
@@ -29,28 +29,30 @@ func (s *Service) GetAll(page int64, limit int64) (*PaginationResultBook, error)
 	}, nil
 }
 
-// GetByID is a function that returns a medicine by id
+// GetByID is a function that returns a book by id
 func (s *Service) GetByID(id int) (*bookDomain.Book, error) {
 	return s.BookRepository.GetByID(id)
 }
 
-// Create is a function that creates a medicine
-func (s *Service) Create(medicine *NewBook) (*bookDomain.Book, error) {
-	medicineModel := medicine.toDomainMapper()
-	return s.BookRepository.Create(medicineModel)
+// Create is a function that creates a book
+func (s *Service) Create(book *NewBook) (*bookDomain.Book, error) {
+
+	bookModel := book.toDomainMapper()
+
+	return s.BookRepository.Create(bookModel)
 }
 
-// GetByMap is a function that returns a medicine by map
+// GetByMap is a function that returns a book by map
 func (s *Service) GetByMap(medicineMap map[string]interface{}) (*bookDomain.Book, error) {
 	return s.BookRepository.GetOneByMap(medicineMap)
 }
 
-// Delete is a function that deletes a medicine by id
+// Delete is a function that deletes a book by id
 func (s *Service) Delete(id int) error {
 	return s.BookRepository.Delete(id)
 }
 
-// Update is a function that updates a medicine by id
+// Update is a function that updates a book by id
 func (s *Service) Update(id uint, medicineMap map[string]interface{}) (*bookDomain.Book, error) {
 	return s.BookRepository.Update(id, medicineMap)
 }

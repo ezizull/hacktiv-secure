@@ -7,13 +7,17 @@ import (
 )
 
 type Book struct {
-	ID          uint      `json:"id" gorm:"primary_key"`
-	Title       string    `json:"title" example:"book title"`
-	Author      string    `json:"author" example:"mr. author"`
-	Description string    `json:"description" example:"book description"`
-	CreatedAt   time.Time `json:"created_at,omitempty" gorm:"-"`
-	UpdatedAt   time.Time `json:"updated_at,omitempty" example:"2021-02-24 20:19:39"`
+	ID          uint   `json:"id" gorm:"primary_key"`
+	Title       string `json:"title" example:"book title"`
+	Author      string `json:"author" example:"mr. author"`
+	Description string `json:"description" example:"book description"`
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 	DeletedAt   *gorm.DeletedAt
+}
+
+func (*Book) TableName() string {
+	return "books"
 }
 
 // Service is a interface that contains the methods for the book service
