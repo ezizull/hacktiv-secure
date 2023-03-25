@@ -3,7 +3,7 @@ package main
 
 import (
 	"fmt"
-	"microservices/challenge-4-advance/infrastructure/repository/config"
+	config "microservices/challenge-4-advance/infrastructure/repository/postgres"
 	errorsController "microservices/challenge-4-advance/infrastructure/rest/controllers/errors"
 	"microservices/challenge-4-advance/infrastructure/rest/middlewares"
 	"net/http"
@@ -23,7 +23,7 @@ func main() {
 	router.Use(limit.MaxAllowed(200))
 	router.Use(cors.Default())
 	var err error
-	DB, err := config.GormOpen()
+	DB, err := config.NewGorm()
 	if err != nil {
 		_ = fmt.Errorf("fatal error in database file: %s", err)
 		panic(err)

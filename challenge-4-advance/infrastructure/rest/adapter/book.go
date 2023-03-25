@@ -3,7 +3,7 @@ package adapter
 
 import (
 	bookService "microservices/challenge-4-advance/application/usecases/book"
-	bookRepository "microservices/challenge-4-advance/infrastructure/repository/book"
+	bookRepository "microservices/challenge-4-advance/infrastructure/repository/postgres/book"
 	bookController "microservices/challenge-4-advance/infrastructure/rest/controllers/book"
 
 	"gorm.io/gorm"

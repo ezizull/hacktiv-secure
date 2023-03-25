@@ -5,8 +5,8 @@ import (
 	"gorm.io/gorm"
 )
 
-// GormOpen is a function that returns a gorm database connection using  initial configuration
-func GormOpen() (gormDB *gorm.DB, err error) {
+// NewGorm is a function that returns a gorm database connection using  initial configuration
+func NewGorm() (gormDB *gorm.DB, err error) {
 	var infoPg infoDatabasePostgreSQL
 	err = infoPg.getPostgreConn("Databases.PostgreSQL.Localhost")
 	if err != nil {

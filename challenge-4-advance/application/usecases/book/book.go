@@ -2,7 +2,7 @@ package book
 
 import (
 	bookDomain "microservices/challenge-4-advance/domain/book"
-	bookRepository "microservices/challenge-4-advance/infrastructure/repository/book"
+	bookRepository "microservices/challenge-4-advance/infrastructure/repository/postgres/book"
 )
 
 // Service is a struct that contains the repository implementation for book use case
