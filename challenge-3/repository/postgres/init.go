@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"microservices/challenge-3/repository/postgres/sqlc"
+	"secure/challenge-3/repository/postgres/sqlc"
 
 	_ "github.com/lib/pq"
 )

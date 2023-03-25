@@ -1,4 +1,4 @@
-module microservices/challenge-2
+module secure/challenge-2
 
 go 1.20
 

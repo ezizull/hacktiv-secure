@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"microservices/challenge-3/repository/postgres/sqlc"
 	"net/http"
+	"secure/challenge-3/repository/postgres/sqlc"
 	"strconv"
 
 	"github.com/gin-gonic/gin"

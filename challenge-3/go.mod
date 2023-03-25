@@ -1,4 +1,4 @@
-module microservices/challenge-3
+module secure/challenge-3
 
 go 1.20
 

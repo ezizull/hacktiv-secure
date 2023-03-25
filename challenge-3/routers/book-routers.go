@@ -1,8 +1,9 @@
 package routers
 
 import (
+	"secure/challenge-3/controllers"
+
 	"github.com/gin-gonic/gin"
-	"microservices/challenge-3/controllers"
 )
 
 func BookRouters(router *gin.Engine, InPg *controllers.PgDB) {

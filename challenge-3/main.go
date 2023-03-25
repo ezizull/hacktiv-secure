@@ -1,9 +1,9 @@
 package main
 
 import (
-	"microservices/challenge-3/controllers"
-	"microservices/challenge-3/repository/postgres"
-	"microservices/challenge-3/routers"
+	"secure/challenge-3/controllers"
+	"secure/challenge-3/repository/postgres"
+	"secure/challenge-3/routers"
 
 	"github.com/gin-gonic/gin"
 )

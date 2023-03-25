@@ -1,8 +1,9 @@
 package routers
 
 import (
+	"secure/challenge-2/controllers"
+
 	"github.com/gin-gonic/gin"
-	"microservices/challenge-2/controllers"
 )
 
 func BookRouters(router *gin.Engine) {

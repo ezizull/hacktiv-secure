@@ -1,8 +1,9 @@
 package main
 
 import (
+	"secure/challenge-2/routers"
+
 	"github.com/gin-gonic/gin"
-	"microservices/challenge-2/routers"
 )
 
 func main() {
