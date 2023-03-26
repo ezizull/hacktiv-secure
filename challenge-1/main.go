@@ -57,7 +57,6 @@ func sumulation(){
 		}
 
 		jsonValue, _ := json.Marshal(postReq)
-		// resp, err := http.Post("http://localhost:4000/posts", "application/json", bytes.NewBuffer(jsonValue))
 		resp, err := http.Post("https://jsonplaceholder.typicode.com/posts", "application/json", bytes.NewBuffer(jsonValue))
 		if err != nil {
 			fmt.Println(err)

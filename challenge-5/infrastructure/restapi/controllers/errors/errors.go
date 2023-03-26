@@ -4,7 +4,7 @@ package errors
 import (
 	"net/http"
 
-	domainErrors "secure/challenge-5/domain/errors"
+	domainErrors "secure/challenge-2/domain/errors"
 
 	"github.com/gin-gonic/gin"
 )

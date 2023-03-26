@@ -1,7 +1,7 @@
 package book
 
 import (
-	domainBook "secure/challenge-5/domain/book"
+	domainBook "secure/challenge-2/domain/book"
 	"time"
 
 	"gorm.io/gorm"

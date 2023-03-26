@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	domainErrors "secure/challenge-5/domain/errors"
+	domainErrors "secure/challenge-2/domain/errors"
 
 	"github.com/go-playground/validator/v10"
 )

@@ -3,8 +3,8 @@ package routes
 
 import (
 	// swaggerFiles for documentation
-	_ "secure/challenge-5/docs"
-	"secure/challenge-5/infrastructure/restapi/adapter"
+	_ "secure/challenge-2/docs"
+	"secure/challenge-2/infrastructure/restapi/adapter"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
