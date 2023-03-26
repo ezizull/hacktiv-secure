@@ -1,11 +1,6 @@
 package domain
 
-type ElementRequest struct {
-	Water  int    `json:"water"`
-	Wind   int    `json:"wind"`
-}
-
-type ElementResponse struct {
+type Element struct {
 	Water  int    `json:"water"`
 	Wind   int    `json:"wind"`
 	WaterStatus string 
