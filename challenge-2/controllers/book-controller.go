@@ -2,16 +2,15 @@ package controllers
 
 import (
 	"net/http"
+	"secure/challenge-2/domain"
 	"strconv"
-
-	"secure/challenge-2/presentation"
 
 	"github.com/gin-gonic/gin"
 )
 
 // Get All Book
 func GetBooks(ctx *gin.Context) {
-	ctx.JSON(http.StatusAccepted, presentation.Books)
+	ctx.JSON(http.StatusAccepted, domain.Books)
 }
 
 // Get Book
@@ -24,7 +23,7 @@ func GetBook(ctx *gin.Context) {
 	}
 
 	// Find book with matching ID
-	for _, book := range presentation.Books {
+	for _, book := range domain.Books {
 		if book.ID == bookID {
 			ctx.JSON(http.StatusOK, book)
 			return
@@ -37,7 +36,7 @@ func GetBook(ctx *gin.Context) {
 // Add Book
 func AddBook(ctx *gin.Context) {
 	var (
-		data presentation.Book
+		data domain.Book
 		err  error
 	)
 
@@ -61,8 +60,8 @@ func AddBook(ctx *gin.Context) {
 	}
 
 	// Add Book to Books
-	data.ID = len(presentation.Books) + 1
-	presentation.Books = append(presentation.Books, data)
+	data.ID = len(domain.Books) + 1
+	domain.Books = append(domain.Books, data)
 
 	ctx.JSON(http.StatusCreated, data)
 }
@@ -95,24 +94,24 @@ func UpdateBook(ctx *gin.Context) {
 	}
 
 	// Update book
-	for i, book := range presentation.Books {
+	for i, book := range domain.Books {
 		if book.ID == bookID {
 			// update data ID
-			presentation.Books[i].ID = bookID
+			domain.Books[i].ID = bookID
 
 			// if update title
 			if data.Title != nil {
-				presentation.Books[i].Title = *data.Title
+				domain.Books[i].Title = *data.Title
 			}
 
 			// if update author
 			if data.Author != nil {
-				presentation.Books[i].Author = *data.Author
+				domain.Books[i].Author = *data.Author
 			}
 
 			// if update description
 			if data.Descr != nil {
-				presentation.Books[i].Descr = *data.Descr
+				domain.Books[i].Descr = *data.Descr
 			}
 
 			found = true
@@ -139,9 +138,9 @@ func DeleteBook(ctx *gin.Context) {
 	}
 
 	// Delete book
-	for i, book := range presentation.Books {
+	for i, book := range domain.Books {
 		if book.ID == bookID {
-			presentation.Books = append(presentation.Books[:i], presentation.Books[i+1:]...)
+			domain.Books = append(domain.Books[:i], domain.Books[i+1:]...)
 			ctx.JSON(http.StatusOK, gin.H{"message": "delete"})
 			return
 		}

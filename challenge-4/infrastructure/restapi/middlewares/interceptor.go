@@ -1,4 +1,4 @@
-// Package middlewares contains the middlewares for the rest api
+// Package middlewares contains the middlewares for the restapi api
 package middlewares
 
 import (

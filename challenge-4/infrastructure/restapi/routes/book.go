@@ -2,7 +2,7 @@
 package routes
 
 import (
-	bookController "secure/challenge-4-advance/infrastructure/rest/controllers/book"
+	bookController "secure/challenge-4-advance/infrastructure/restapi/controllers/book"
 
 	"github.com/gin-gonic/gin"
 )

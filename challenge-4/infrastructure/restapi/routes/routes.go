@@ -4,7 +4,7 @@ package routes
 import (
 	// swaggerFiles for documentation
 	_ "secure/challenge-4-advance/docs"
-	"secure/challenge-4-advance/infrastructure/rest/adapter"
+	"secure/challenge-4-advance/infrastructure/restapi/adapter"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"

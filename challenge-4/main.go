@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"net/http"
 	config "secure/challenge-4-advance/infrastructure/repository/postgres"
-	errorsController "secure/challenge-4-advance/infrastructure/rest/controllers/errors"
-	"secure/challenge-4-advance/infrastructure/rest/middlewares"
+	errorsController "secure/challenge-4-advance/infrastructure/restapi/controllers/errors"
+	"secure/challenge-4-advance/infrastructure/restapi/middlewares"
+	"secure/challenge-4-advance/infrastructure/restapi/routes"
 	"strings"
 	"time"
 
@@ -14,8 +15,6 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
-
-	"secure/challenge-4-advance/infrastructure/rest/routes"
 )
 
 func main() {

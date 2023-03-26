@@ -6,7 +6,7 @@ import (
 	useCaseBook "secure/challenge-5/application/usecases/book"
 	domainBook "secure/challenge-5/domain/book"
 	domainError "secure/challenge-5/domain/errors"
-	"secure/challenge-5/infrastructure/rest/controllers"
+	"secure/challenge-5/infrastructure/restapi/controllers"
 	"strconv"
 
 	"github.com/gin-gonic/gin"

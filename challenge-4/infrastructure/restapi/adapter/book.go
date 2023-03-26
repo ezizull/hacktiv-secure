@@ -4,7 +4,7 @@ package adapter
 import (
 	bookService "secure/challenge-4-advance/application/usecases/book"
 	bookRepository "secure/challenge-4-advance/infrastructure/repository/postgres/book"
-	bookController "secure/challenge-4-advance/infrastructure/rest/controllers/book"
+	bookController "secure/challenge-4-advance/infrastructure/restapi/controllers/book"
 
 	"gorm.io/gorm"
 )
