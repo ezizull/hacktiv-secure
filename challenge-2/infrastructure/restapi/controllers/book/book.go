@@ -3,10 +3,10 @@ package book
 import (
 	"errors"
 	"net/http"
-	useCaseBook "secure/challenge-5/application/usecases/book"
-	domainBook "secure/challenge-5/domain/book"
-	domainError "secure/challenge-5/domain/errors"
-	"secure/challenge-5/infrastructure/restapi/controllers"
+	useCaseBook "secure/challenge-2/application/usecases/book"
+	domainBook "secure/challenge-2/domain/book"
+	domainError "secure/challenge-2/domain/errors"
+	"secure/challenge-2/infrastructure/restapi/controllers"
 	"strconv"
 
 	"github.com/gin-gonic/gin"

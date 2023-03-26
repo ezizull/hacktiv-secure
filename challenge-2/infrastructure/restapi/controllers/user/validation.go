@@ -1,12 +1,11 @@
-// Package book contains the book controller
-package book
+// Package user contains the user controller
+package user
 
 import (
 	"errors"
 	"fmt"
-	"strings"
-
 	domainErrors "secure/challenge-2/domain/errors"
+	"strings"
 
 	"github.com/go-playground/validator/v10"
 )
@@ -21,9 +20,10 @@ func updateValidation(request map[string]interface{}) (err error) {
 	}
 
 	validationMap := map[string]string{
-		"title":       "omitempty,gt=3,lt=100",
+		"name":        "omitempty,gt=3,lt=100",
 		"description": "omitempty,gt=3,lt=100",
-		"author":      "omitempty,gt=3,lt=100",
+		"ean_code":    "omitempty,gt=3,lt=100",
+		"laboratory":  "omitempty,gt=3,lt=100",
 	}
 
 	validate := validator.New()
