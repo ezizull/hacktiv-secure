@@ -1,6 +1,6 @@
 package book
 
-import domainBook "secure/challenge-2/domain/book"
+import domainBook "secure/challenge-5/domain/book"
 
 func (book *Book) toDomainMapper() *domainBook.Book {
 	return &domainBook.Book{

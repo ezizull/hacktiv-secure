@@ -3,8 +3,8 @@ package routes
 
 import (
 	// swaggerFiles for documentation
-	_ "secure/challenge-2/docs"
-	"secure/challenge-2/infrastructure/restapi/adapter"
+	_ "secure/challenge-5/docs"
+	"secure/challenge-5/infrastructure/restapi/adapter"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -22,10 +22,6 @@ type Security struct {
 // @version 1.0
 // @description Documentation's Boilerplate Golang
 // @termsOfService http://swagger.io/terms/
-
-// @contact.name Alejandro Gabriel Guerrero
-// @contact.url http://github.com/gbrayhan
-// @contact.email gbrayhan@gmail.com
 
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html

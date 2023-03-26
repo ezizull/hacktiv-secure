@@ -1,8 +1,8 @@
 package book
 
 import (
-	bookDomain "secure/challenge-2/domain/book"
-	bookRepository "secure/challenge-2/infrastructure/repository/postgres/book"
+	bookDomain "secure/challenge-5/domain/book"
+	bookRepository "secure/challenge-5/infrastructure/repository/postgres/book"
 )
 
 // Service is a struct that contains the repository implementation for book use case

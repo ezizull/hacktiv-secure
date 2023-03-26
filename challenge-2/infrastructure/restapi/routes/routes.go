@@ -23,10 +23,6 @@ type Security struct {
 // @description Documentation's Boilerplate Golang
 // @termsOfService http://swagger.io/terms/
 
-// @contact.name Alejandro Gabriel Guerrero
-// @contact.url http://github.com/gbrayhan
-// @contact.email gbrayhan@gmail.com
-
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 

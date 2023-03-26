@@ -2,9 +2,9 @@
 package adapter
 
 import (
-	bookService "secure/challenge-2/application/usecases/book"
-	bookRepository "secure/challenge-2/infrastructure/repository/postgres/book"
-	bookController "secure/challenge-2/infrastructure/restapi/controllers/book"
+	bookService "secure/challenge-5/application/usecases/book"
+	bookRepository "secure/challenge-5/infrastructure/repository/postgres/book"
+	bookController "secure/challenge-5/infrastructure/restapi/controllers/book"
 
 	"gorm.io/gorm"
 )

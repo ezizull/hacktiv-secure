@@ -3,7 +3,7 @@ package book
 // Package medicine provides the use case for medicine
 
 import (
-	domainBook "secure/challenge-2/domain/book"
+	domainBook "secure/challenge-5/domain/book"
 )
 
 func (n *NewBook) toDomainMapper() *domainBook.Book {

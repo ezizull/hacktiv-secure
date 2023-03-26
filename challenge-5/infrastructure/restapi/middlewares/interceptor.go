@@ -7,11 +7,11 @@ import (
 	"io"
 	"time"
 
-	"secure/challenge-2/application/services"
+	"secure/challenge-5/application/services"
 
 	"github.com/gin-gonic/gin"
 
-	"secure/challenge-2/utils"
+	"secure/challenge-5/utils"
 )
 
 type bodyLogWriter struct {

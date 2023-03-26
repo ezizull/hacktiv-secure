@@ -4,9 +4,9 @@ package main
 import (
 	"fmt"
 	"net/http"
-	config "secure/challenge-2/infrastructure/repository/postgres"
-	errorsController "secure/challenge-2/infrastructure/restapi/controllers/errors"
-	"secure/challenge-2/infrastructure/restapi/middlewares"
+	config "secure/challenge-5/infrastructure/repository/postgres"
+	errorsController "secure/challenge-5/infrastructure/restapi/controllers/errors"
+	"secure/challenge-5/infrastructure/restapi/middlewares"
 	"strings"
 	"time"
 
@@ -15,7 +15,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 
-	"secure/challenge-2/infrastructure/restapi/routes"
+	"secure/challenge-5/infrastructure/restapi/routes"
 )
 
 func main() {

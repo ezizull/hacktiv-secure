@@ -4,7 +4,7 @@ package jwt
 import (
 	"errors"
 	"fmt"
-	domainErrors "secure/challenge-2/domain/errors"
+	domainErrors "secure/challenge-5/domain/errors"
 	"strconv"
 	"time"
 

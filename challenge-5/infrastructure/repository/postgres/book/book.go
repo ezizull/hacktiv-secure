@@ -3,8 +3,8 @@ package book
 import (
 	"encoding/json"
 	"log"
-	domainBook "secure/challenge-2/domain/book"
-	domainErrors "secure/challenge-2/domain/errors"
+	domainBook "secure/challenge-5/domain/book"
+	domainErrors "secure/challenge-5/domain/errors"
 
 	"gorm.io/gorm"
 )
