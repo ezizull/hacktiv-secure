@@ -1,5 +1,5 @@
-// Package config provides the database connection
-package config
+// Package postgres provides the database connection
+package postgres
 
 import (
 	"gorm.io/gorm"

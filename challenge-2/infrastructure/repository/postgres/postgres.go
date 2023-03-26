@@ -1,5 +1,5 @@
 // Package config provides the database connection
-package config
+package postgres
 
 import (
 	"fmt"

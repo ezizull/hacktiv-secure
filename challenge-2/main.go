@@ -4,7 +4,7 @@ package main
 import (
 	"fmt"
 	"net/http"
-	config "secure/challenge-2/infrastructure/repository/postgres"
+	"secure/challenge-2/infrastructure/repository/postgres"
 	errorsController "secure/challenge-2/infrastructure/restapi/controllers/errors"
 	"secure/challenge-2/infrastructure/restapi/middlewares"
 	"strings"
@@ -22,15 +22,16 @@ func main() {
 	router := gin.Default()
 	router.Use(limit.MaxAllowed(200))
 	router.Use(cors.Default())
-	var err error
-	DB, err := config.NewGorm()
+	router.Use(middlewares.GinBodyLogMiddleware)
+	router.Use(errorsController.Handler)
+
+	DB, err := postgres.NewGorm()
 	if err != nil {
 		_ = fmt.Errorf("fatal error in database file: %s", err)
 		panic(err)
 	}
-	router.Use(middlewares.GinBodyLogMiddleware)
-	router.Use(errorsController.Handler)
 	routes.ApplicationV1Router(router, DB)
+
 	startServer(router)
 
 }
