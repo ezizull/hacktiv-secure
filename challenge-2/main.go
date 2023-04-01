@@ -20,7 +20,6 @@ import (
 )
 
 func main() {
-	cmd.Execute()
 
 	router := gin.Default()
 	router.Use(limit.MaxAllowed(200))
@@ -32,6 +31,8 @@ func main() {
 		_ = fmt.Errorf("fatal error in postgres file: %s", err)
 		panic(err)
 	}
+
+	cmd.Execute(postgresDB)
 
 	router.Use(middlewares.GinBodyLogMiddleware)
 	router.Use(errorsController.Handler)

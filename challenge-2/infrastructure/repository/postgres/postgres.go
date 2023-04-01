@@ -95,7 +95,7 @@ func initPostgreDB(inGormDB *gorm.DB, infoPg infoDatabasePostgreSQL) (*gorm.DB, 
 	return inGormDB, nil
 }
 
-func migratePostgre(inGormDB *gorm.DB) (*gorm.DB, error) {
+func MigratePostgre(inGormDB *gorm.DB) error {
 	tablesMigrate := []interface{}{
 		&bookStruct.Book{},
 		&userStruct.User{},
@@ -103,7 +103,7 @@ func migratePostgre(inGormDB *gorm.DB) (*gorm.DB, error) {
 
 	err := inGormDB.AutoMigrate(tablesMigrate...)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return inGormDB, nil
+	return nil
 }

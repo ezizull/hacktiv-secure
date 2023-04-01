@@ -18,11 +18,6 @@ func NewGorm() (gormDB *gorm.DB, err error) {
 		return nil, err
 	}
 
-	// gormDB, err = migratePostgre(gormDB)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
 	var result int
 	// Test the connection by executing a simple query
 	if err = gormDB.Raw("SELECT 1").Scan(&result).Error; err != nil {
