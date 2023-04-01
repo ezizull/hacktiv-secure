@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"log"
 	"os"
+	bookStruct "secure/challenge-2/infrastructure/repository/postgres/book"
+	userStruct "secure/challenge-2/infrastructure/repository/postgres/user"
 	"time"
 
-	// driver mysql on this implementation
-	_ "github.com/go-sql-driver/mysql"
+	// driver postgres on this implementation
+	_ "github.com/lib/pq"
 	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
@@ -90,5 +92,18 @@ func initPostgreDB(inGormDB *gorm.DB, infoPg infoDatabasePostgreSQL) (*gorm.DB, 
 		return nil, err
 	}
 
+	return inGormDB, nil
+}
+
+func migratePostgre(inGormDB *gorm.DB) (*gorm.DB, error) {
+	tablesMigrate := []interface{}{
+		&bookStruct.Book{},
+		&userStruct.User{},
+	}
+
+	err := inGormDB.AutoMigrate(tablesMigrate...)
+	if err != nil {
+		return nil, err
+	}
 	return inGormDB, nil
 }
