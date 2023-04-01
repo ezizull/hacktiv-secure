@@ -44,5 +44,6 @@ func ApplicationV1Router(router *gin.Engine, db *gorm.DB) {
 
 		AuthRoutes(routerV1, adapter.AuthAdapter(db))
 		BookRoutes(routerV1, adapter.BookAdapter(db))
+		UserRoutes(routerV1, adapter.UserAdapter(db))
 	}
 }

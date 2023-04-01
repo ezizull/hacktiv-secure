@@ -23,9 +23,10 @@ var PostgresCmd = &cobra.Command{
 				_ = fmt.Errorf("fatal error in migrating postgres: %s", err)
 				panic(err)
 			}
-		} else {
-			cmd.Help()
+			return
 		}
+
+		cmd.Help()
 	},
 }
 

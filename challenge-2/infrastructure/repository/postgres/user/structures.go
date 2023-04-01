@@ -2,6 +2,7 @@
 package user
 
 import (
+	"secure/challenge-2/infrastructure/repository/postgres/role"
 	"time"
 )
 
@@ -16,6 +17,7 @@ type User struct {
 	HashPassword string    `json:"hash_password" example:"SomeHashPass"`
 	CreatedAt    time.Time `json:"created_at,omitempty" example:"2021-02-24 20:19:39" gorm:"autoCreateTime:mili"`
 	UpdatedAt    time.Time `json:"updated_at,omitempty" example:"2021-02-24 20:19:39" gorm:"autoUpdateTime:mili"`
+	RoleID       int       `json:"role_id" gorm:"index"`
 }
 
 // TableName overrides the table name used by User to `users`
@@ -32,4 +34,15 @@ type PaginationResultUser struct {
 	NextCursor uint
 	PrevCursor uint
 	NumPages   int
+}
+
+// UserRole is a struct that contains role of user
+type UserRole struct {
+	User
+	Role role.Role `gorm:"foreignKey:RoleID"`
+}
+
+// TableName overrides the table name used by User to `users`
+func (*UserRole) TableName() string {
+	return "users"
 }

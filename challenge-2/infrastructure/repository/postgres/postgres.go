@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	bookStruct "secure/challenge-2/infrastructure/repository/postgres/book"
+	roleStruct "secure/challenge-2/infrastructure/repository/postgres/role"
 	userStruct "secure/challenge-2/infrastructure/repository/postgres/user"
 	"time"
 
@@ -99,6 +100,7 @@ func MigratePostgre(inGormDB *gorm.DB) error {
 	tablesMigrate := []interface{}{
 		&bookStruct.Book{},
 		&userStruct.User{},
+		&roleStruct.Role{},
 	}
 
 	err := inGormDB.AutoMigrate(tablesMigrate...)
