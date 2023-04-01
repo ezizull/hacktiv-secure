@@ -1,6 +1,7 @@
 package migrate
 
 import (
+	"fmt"
 	"secure/challenge-2/infrastructure/repository/postgres"
 
 	"github.com/spf13/cobra"
@@ -19,7 +20,8 @@ var PostgresCmd = &cobra.Command{
 		if Postgres {
 			err := postgres.MigratePostgre(PostgresDB)
 			if err != nil {
-				return
+				_ = fmt.Errorf("fatal error in migrating postgres: %s", err)
+				panic(err)
 			}
 		} else {
 			cmd.Help()
