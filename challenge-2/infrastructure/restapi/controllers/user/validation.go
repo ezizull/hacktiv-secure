@@ -4,6 +4,7 @@ package user
 import (
 	"errors"
 	"fmt"
+	"regexp"
 	domainErrors "secure/challenge-2/domain/errors"
 	"strings"
 
@@ -19,11 +20,34 @@ func updateValidation(request map[string]interface{}) (err error) {
 		}
 	}
 
+	if password, ok := request["password"].(string); ok {
+		if len(password) < 8 {
+			errorsValidation = append(errorsValidation, "password must be at least 8 characters long")
+		}
+		hasSpecialChar := regexp.MustCompile(`[^a-zA-Z0-9]+`).MatchString
+		if !hasSpecialChar(password) {
+			errorsValidation = append(errorsValidation, "password must contain at least one special character")
+		}
+		hasCapitalLetter := regexp.MustCompile(`[A-Z]+`).MatchString
+		if !hasCapitalLetter(password) {
+			errorsValidation = append(errorsValidation, "password must contain at least one capital letter")
+		}
+		hasLowerCase := regexp.MustCompile(`[a-z]+`).MatchString
+		if !hasLowerCase(password) {
+			errorsValidation = append(errorsValidation, "password must contain at least one lowercase letter")
+		}
+		hasNumber := regexp.MustCompile(`[0-9]+`).MatchString
+		if !hasNumber(password) {
+			errorsValidation = append(errorsValidation, "password must contain at least one number")
+		}
+	}
+
 	validationMap := map[string]string{
-		"name":        "omitempty,gt=3,lt=100",
-		"description": "omitempty,gt=3,lt=100",
-		"ean_code":    "omitempty,gt=3,lt=100",
-		"laboratory":  "omitempty,gt=3,lt=100",
+		"username":  "omitempty,gt=3,lt=100",
+		"email":     "omitempty,gt=3,lt=100,email",
+		"firstName": "omitempty,gt=2,lt=100",
+		"lastName":  "omitempty,gt=2,lt=100",
+		"role_id":   "omitempty,gt=0,lt=100",
 	}
 
 	validate := validator.New()
@@ -58,4 +82,50 @@ func updateValidation(request map[string]interface{}) (err error) {
 		err = domainErrors.NewAppError(errors.New(strings.Join(errorsValidation, ", ")), domainErrors.ValidationError)
 	}
 	return
+}
+
+func createValidation(request NewUserRequest) error {
+	// Username must have minimum length of 4
+	if len(request.UserName) < 4 {
+		return errors.New("Username must be at least 4 characters long")
+	}
+
+	// Email must be a valid email format
+	if !regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`).MatchString(request.Email) {
+		return errors.New("Invalid email format")
+	}
+
+	// Password must have minimum length of 8, at least 1 special character, 1 capital letter, 1 lowercase letter, and 1 number
+	if len(request.Password) < 8 {
+		return errors.New("Password should be at least 8 characters long")
+	}
+	if !regexp.MustCompile(`[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]`).MatchString(request.Password) {
+		return errors.New("Password should contain at least one special character")
+	}
+	if !regexp.MustCompile(`[A-Z]`).MatchString(request.Password) {
+		return errors.New("Password should contain at least one uppercase letter")
+	}
+	if !regexp.MustCompile(`[a-z]`).MatchString(request.Password) {
+		return errors.New("Password should contain at least one lowercase letter")
+	}
+	if !regexp.MustCompile(`\d`).MatchString(request.Password) {
+		return errors.New("Password should contain at least one number")
+	}
+
+	// First name must have minimum length of 2
+	if len(request.FirstName) < 2 {
+		return errors.New("First name must be at least 2 characters long")
+	}
+
+	// Last name must have minimum length of 2
+	if len(request.LastName) < 2 {
+		return errors.New("Last name must be at least 2 characters long")
+	}
+
+	// Role ID must not be empty
+	if len(request.RoleID) < 1 {
+		return errors.New("Role ID must not be empty")
+	}
+
+	return nil
 }

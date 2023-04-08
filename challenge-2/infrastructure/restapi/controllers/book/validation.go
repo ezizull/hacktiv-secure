@@ -27,7 +27,7 @@ func updateValidation(request map[string]interface{}) (err error) {
 	}
 
 	validate := validator.New()
-	err = validate.RegisterValidation("update_validation", func(fl validator.FieldLevel) bool {
+	err = validate.RegisterValidation("", func(fl validator.FieldLevel) bool {
 		m, ok := fl.Field().Interface().(map[string]interface{})
 		if !ok {
 			return false

@@ -4,6 +4,7 @@ package user
 import (
 	domainRole "secure/challenge-2/domain/role"
 	userDomain "secure/challenge-2/domain/user"
+	roleRepository "secure/challenge-2/infrastructure/repository/postgres/role"
 	userRepository "secure/challenge-2/infrastructure/repository/postgres/user"
 
 	"golang.org/x/crypto/bcrypt"
@@ -12,6 +13,7 @@ import (
 // Service is a struct that contains the repository implementation for user use case
 type Service struct {
 	UserRepository userRepository.Repository
+	RoleRepository roleRepository.Repository
 }
 
 // GetAll is a function that returns all users
@@ -30,7 +32,13 @@ func (s *Service) GetByID(id int) (*userDomain.User, error) {
 }
 
 // Create is a function that creates a new user
-func (s *Service) Create(newUser *NewUser) (*userDomain.User, error) {
+func (s *Service) Create(newUser NewUser) (*userDomain.User, error) {
+
+	_, err := s.RoleRepository.GetByID(newUser.RoleID)
+	if err != nil {
+		return &userDomain.User{}, err
+	}
+
 	domain := newUser.toDomainMapper()
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(newUser.Password), bcrypt.DefaultCost)

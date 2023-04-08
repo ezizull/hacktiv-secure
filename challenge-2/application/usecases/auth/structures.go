@@ -16,7 +16,7 @@ type DataUserAuthenticated struct {
 	FirstName string `json:"firstName" example:"John"`
 	LastName  string `json:"lastName" example:"Doe"`
 	Status    bool   `json:"status" example:"1"`
-	Role      string `json:"role" example:"admin"`
+	RoleID    string `json:"role_id" example:"admin"`
 	ID        int    `json:"id" example:"123"`
 }
 

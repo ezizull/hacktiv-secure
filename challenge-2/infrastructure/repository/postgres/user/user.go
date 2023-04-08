@@ -4,7 +4,7 @@ package user
 import (
 	"encoding/json"
 
-	domainErrors "secure/challenge-2/domain/errors"
+	domainError "secure/challenge-2/domain/errors"
 	domainRole "secure/challenge-2/domain/role"
 	domainUser "secure/challenge-2/domain/user"
 
@@ -21,7 +21,7 @@ func (r *Repository) GetAll() (*[]domainUser.User, error) {
 	var users []User
 	err := r.DB.Find(&users).Error
 	if err != nil {
-		err = domainErrors.NewAppErrorWithType(domainErrors.UnknownError)
+		err = domainError.NewAppErrorWithType(domainError.UnknownError)
 		return nil, err
 	}
 
@@ -35,18 +35,18 @@ func (r *Repository) Create(userDomain *domainUser.User) (*domainUser.User, erro
 	err := txDb.Error
 	if err != nil {
 		byteErr, _ := json.Marshal(err)
-		var newError domainErrors.GormErr
+		var newError domainError.GormErr
 		err = json.Unmarshal(byteErr, &newError)
 		if err != nil {
 			return &domainUser.User{}, err
 		}
 		switch newError.Number {
 		case 1062:
-			err = domainErrors.NewAppErrorWithType(domainErrors.ResourceAlreadyExists)
+			err = domainError.NewAppErrorWithType(domainError.ResourceAlreadyExists)
 			return &domainUser.User{}, err
 
 		default:
-			err = domainErrors.NewAppErrorWithType(domainErrors.UnknownError)
+			err = domainError.NewAppErrorWithType(domainError.UnknownError)
 		}
 	}
 	return userRepository.toDomainMapper(), err
@@ -58,7 +58,7 @@ func (r *Repository) GetOneByMap(userMap map[string]interface{}) (*domainUser.Us
 
 	tx := r.DB.Where(userMap).Limit(1).Find(&userRepository)
 	if tx.Error != nil {
-		err := domainErrors.NewAppErrorWithType(domainErrors.UnknownError)
+		err := domainError.NewAppErrorWithType(domainError.UnknownError)
 		return &domainUser.User{}, err
 	}
 	return userRepository.toDomainMapper(), nil
@@ -72,9 +72,9 @@ func (r *Repository) GetWithRole(id int) (*domainRole.User, error) {
 	if err != nil {
 		switch err.Error() {
 		case gorm.ErrRecordNotFound.Error():
-			err = domainErrors.NewAppErrorWithType(domainErrors.NotFound)
+			err = domainError.NewAppErrorWithType(domainError.NotFound)
 		default:
-			err = domainErrors.NewAppErrorWithType(domainErrors.UnknownError)
+			err = domainError.NewAppErrorWithType(domainError.UnknownError)
 		}
 	}
 
@@ -89,9 +89,9 @@ func (r *Repository) GetByID(id int) (*domainUser.User, error) {
 	if err != nil {
 		switch err.Error() {
 		case gorm.ErrRecordNotFound.Error():
-			err = domainErrors.NewAppErrorWithType(domainErrors.NotFound)
+			err = domainError.NewAppErrorWithType(domainError.NotFound)
 		default:
-			err = domainErrors.NewAppErrorWithType(domainErrors.UnknownError)
+			err = domainError.NewAppErrorWithType(domainError.UnknownError)
 		}
 	}
 
@@ -110,16 +110,16 @@ func (r *Repository) Update(id int, userMap map[string]interface{}) (*domainUser
 	// err = config.DB.Save(user).Error
 	if err != nil {
 		byteErr, _ := json.Marshal(err)
-		var newError domainErrors.GormErr
+		var newError domainError.GormErr
 		err = json.Unmarshal(byteErr, &newError)
 		if err != nil {
 			return &domainUser.User{}, err
 		}
 		switch newError.Number {
 		case 1062:
-			err = domainErrors.NewAppErrorWithType(domainErrors.ResourceAlreadyExists)
+			err = domainError.NewAppErrorWithType(domainError.ResourceAlreadyExists)
 		default:
-			err = domainErrors.NewAppErrorWithType(domainErrors.UnknownError)
+			err = domainError.NewAppErrorWithType(domainError.UnknownError)
 		}
 		return &domainUser.User{}, err
 
@@ -134,12 +134,12 @@ func (r *Repository) Update(id int, userMap map[string]interface{}) (*domainUser
 func (r *Repository) Delete(id int) (err error) {
 	tx := r.DB.Delete(&User{}, id)
 	if tx.Error != nil {
-		err = domainErrors.NewAppErrorWithType(domainErrors.UnknownError)
+		err = domainError.NewAppErrorWithType(domainError.UnknownError)
 		return
 	}
 
 	if tx.RowsAffected == 0 {
-		err = domainErrors.NewAppErrorWithType(domainErrors.NotFound)
+		err = domainError.NewAppErrorWithType(domainError.NotFound)
 	}
 
 	return

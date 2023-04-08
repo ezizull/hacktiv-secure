@@ -16,6 +16,7 @@ func (user *User) toDomainMapper() *domainUser.User {
 		LastName:     user.LastName,
 		Status:       user.Status,
 		HashPassword: user.HashPassword,
+		RoleID:       user.RoleID,
 		CreatedAt:    user.CreatedAt,
 		UpdatedAt:    user.UpdatedAt,
 	}
@@ -31,9 +32,10 @@ func fromDomainMapper(user *domainUser.User) *User {
 		LastName:     user.LastName,
 		Status:       user.Status,
 		HashPassword: user.HashPassword,
-		CreatedAt:    user.CreatedAt,
-		UpdatedAt:    user.UpdatedAt,
 		RoleID:       user.RoleID,
+
+		CreatedAt: user.CreatedAt,
+		UpdatedAt: user.UpdatedAt,
 	}
 }
 

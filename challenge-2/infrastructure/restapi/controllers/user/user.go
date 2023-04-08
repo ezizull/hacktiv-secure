@@ -39,6 +39,13 @@ func (c *Controller) NewUser(ctx *gin.Context) {
 		return
 	}
 
+	err := createValidation(request)
+	if err != nil {
+		appError := domainErrors.NewAppError(err, domainErrors.ValidationError)
+		_ = ctx.Error(appError)
+		return
+	}
+
 	userModel, err := c.UserService.Create(toUsecaseMapper(&request))
 	if err != nil {
 		_ = ctx.Error(err)

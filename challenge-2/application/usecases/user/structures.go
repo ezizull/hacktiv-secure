@@ -7,12 +7,12 @@ import (
 
 // NewUser is the structure for a new user
 type NewUser struct {
-	UserName  string `example:"UserName"`
-	Email     string `example:"some@mail.com"`
-	FirstName string `example:"John"`
-	LastName  string `example:"Doe"`
-	Password  string `example:"SomeHashPass"`
-	RoleID    string `example:"1"`
+	UserName  string
+	Email     string
+	FirstName string
+	LastName  string
+	Password  string
+	RoleID    string
 }
 
 // PaginationResultUser is the structure for pagination result of user

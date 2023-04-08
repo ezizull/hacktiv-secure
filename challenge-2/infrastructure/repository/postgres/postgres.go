@@ -78,6 +78,8 @@ func initPostgreDB(inGormDB *gorm.DB, infoPg infoDatabasePostgreSQL) (*gorm.DB, 
 	inGormDB, err := gorm.Open(postgres.Open(infoPg.Write.DriverConn), &gorm.Config{
 		Logger:                                   newLogger,
 		DisableForeignKeyConstraintWhenMigrating: true,
+		PrepareStmt:                              true,
+		// SkipDefaultTransaction:                   true,
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true,
 		},
