@@ -8,5 +8,5 @@ type NewUserRequest struct {
 	FirstName string `json:"firstName" example:"John" binding:"required"`
 	LastName  string `json:"lastName" example:"Doe" binding:"required"`
 	Password  string `json:"password" example:"Password123" binding:"required"`
-	Role      string `json:"role" example:"admin" binding:"required"`
+	RoleID    string `json:"role_id" example:"admin" binding:"required"`
 }

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 
 	domainErrors "secure/challenge-2/domain/errors"
+	domainRole "secure/challenge-2/domain/role"
 	domainUser "secure/challenge-2/domain/user"
 
 	"gorm.io/gorm"
@@ -61,6 +62,23 @@ func (r *Repository) GetOneByMap(userMap map[string]interface{}) (*domainUser.Us
 		return &domainUser.User{}, err
 	}
 	return userRepository.toDomainMapper(), nil
+}
+
+// GetWithRole ... Fetch only one user with Role by ID
+func (r *Repository) GetWithRole(id int) (*domainRole.User, error) {
+	var userRole UserRole
+	err := r.DB.Preload("Role").Where("id = ?", id).First(&userRole).Error
+
+	if err != nil {
+		switch err.Error() {
+		case gorm.ErrRecordNotFound.Error():
+			err = domainErrors.NewAppErrorWithType(domainErrors.NotFound)
+		default:
+			err = domainErrors.NewAppErrorWithType(domainErrors.UnknownError)
+		}
+	}
+
+	return userRole.toDomainMapper(), err
 }
 
 // GetByID ... Fetch only one user by ID

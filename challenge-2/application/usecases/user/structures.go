@@ -12,7 +12,7 @@ type NewUser struct {
 	FirstName string `example:"John"`
 	LastName  string `example:"Doe"`
 	Password  string `example:"SomeHashPass"`
-	Role      string `example:"admin"`
+	RoleID    string `example:"1"`
 }
 
 // PaginationResultUser is the structure for pagination result of user

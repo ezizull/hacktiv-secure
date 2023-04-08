@@ -42,8 +42,13 @@ func ApplicationV1Router(router *gin.Engine, db *gorm.DB) {
 			routerV1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 		}
 
+		// Auth Routes
 		AuthRoutes(routerV1, adapter.AuthAdapter(db))
+
+		// Book Routes
 		BookRoutes(routerV1, adapter.BookAdapter(db))
+
+		// User Routes
 		UserRoutes(routerV1, adapter.UserAdapter(db))
 	}
 }

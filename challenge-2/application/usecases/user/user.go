@@ -2,6 +2,7 @@
 package user
 
 import (
+	domainRole "secure/challenge-2/domain/role"
 	userDomain "secure/challenge-2/domain/user"
 	userRepository "secure/challenge-2/infrastructure/repository/postgres/user"
 
@@ -16,6 +17,11 @@ type Service struct {
 // GetAll is a function that returns all users
 func (s *Service) GetAll() (*[]userDomain.User, error) {
 	return s.UserRepository.GetAll()
+}
+
+// GetWithRole is a function that returns a user with role by id
+func (s *Service) GetWithRole(id int) (*domainRole.User, error) {
+	return s.UserRepository.GetWithRole(id)
 }
 
 // GetByID is a function that returns a user by id

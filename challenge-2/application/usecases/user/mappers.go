@@ -11,6 +11,6 @@ func (n *NewUser) toDomainMapper() *domainUser.User {
 		Email:     n.Email,
 		FirstName: n.FirstName,
 		LastName:  n.LastName,
-		Role:      n.Role,
+		RoleID:    n.RoleID,
 	}
 }

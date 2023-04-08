@@ -86,14 +86,14 @@ func (c *Controller) GetUsersByID(ctx *gin.Context) {
 		return
 	}
 
-	user, err := c.UserService.GetByID(userID)
+	user, err := c.UserService.GetWithRole(userID)
 	if err != nil {
 		appError := domainErrors.NewAppError(err, domainErrors.ValidationError)
 		_ = ctx.Error(appError)
 		return
 	}
 
-	ctx.JSON(http.StatusOK, domainToResponseMapper(user))
+	ctx.JSON(http.StatusOK, userRoleDomainToResponseMapper(user))
 }
 
 // UpdateUser godoc
