@@ -3,6 +3,7 @@ package book
 import (
 	"errors"
 	"net/http"
+	security "secure/challenge-2/application/security/jwt"
 	useCaseBook "secure/challenge-2/application/usecases/book"
 	domainBook "secure/challenge-2/domain/book"
 	domainError "secure/challenge-2/domain/errors"
@@ -28,6 +29,9 @@ type Controller struct {
 // @Failure 500 {object} MessageResponse
 // @Router /book [post]
 func (c *Controller) NewBook(ctx *gin.Context) {
+	// Get your object from the context
+	authData := ctx.MustGet("Auth").(security.Claims)
+
 	var request NewBookRequest
 
 	if err := controllers.BindJSON(ctx, &request); err != nil {
@@ -36,11 +40,9 @@ func (c *Controller) NewBook(ctx *gin.Context) {
 		return
 	}
 
-	userID := ctx.Keys["UserID"].(int)
-
 	newBook := useCaseBook.NewBook{
 		Title:       request.Title,
-		UserID:      userID,
+		UserID:      authData.UserID,
 		Description: request.Description,
 	}
 
@@ -64,6 +66,9 @@ func (c *Controller) NewBook(ctx *gin.Context) {
 // @Failure 500 {object} MessageResponse
 // @Router /book [get]
 func (c *Controller) GetAllBooks(ctx *gin.Context) {
+	// Get your object from the context
+	authData := ctx.MustGet("Auth").(security.Claims)
+
 	pageStr := ctx.DefaultQuery("page", "1")
 	limitStr := ctx.DefaultQuery("limit", "20")
 
@@ -81,9 +86,8 @@ func (c *Controller) GetAllBooks(ctx *gin.Context) {
 	}
 
 	var books *useCaseBook.PaginationResultBook
-	roleVal := ctx.Keys["Role"].(string)
 
-	if roleVal == "admin" {
+	if authData.Role == "admin" {
 		books, err = c.BookService.GetAll(page, limit)
 		if err != nil {
 			appError := domainError.NewAppErrorWithType(domainError.UnknownError)
@@ -91,8 +95,7 @@ func (c *Controller) GetAllBooks(ctx *gin.Context) {
 			return
 		}
 	} else {
-		userId := ctx.Keys["UserID"].(int)
-		books, err = c.BookService.UserGetAll(page, userId, limit)
+		books, err = c.BookService.UserGetAll(page, authData.UserID, limit)
 		if err != nil {
 			appError := domainError.NewAppErrorWithType(domainError.UnknownError)
 			_ = ctx.Error(appError)
@@ -113,6 +116,9 @@ func (c *Controller) GetAllBooks(ctx *gin.Context) {
 // @Failure 500 {object} MessageResponse
 // @Router /book/{book_id} [get]
 func (c *Controller) GetBookByID(ctx *gin.Context) {
+	// Get your object from the context
+	authData := ctx.MustGet("Auth").(security.Claims)
+
 	bookID, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		appError := domainError.NewAppError(errors.New("book id is invalid"), domainError.ValidationError)
@@ -121,9 +127,8 @@ func (c *Controller) GetBookByID(ctx *gin.Context) {
 	}
 
 	var domainBook *domainBook.Book
-	roleVal := ctx.Keys["Role"].(string)
 
-	if roleVal == "admin" {
+	if authData.Role == "admin" {
 		domainBook, err = c.BookService.GetByID(bookID)
 		if err != nil {
 			appError := domainError.NewAppError(err, domainError.ValidationError)
@@ -131,8 +136,8 @@ func (c *Controller) GetBookByID(ctx *gin.Context) {
 			return
 		}
 	} else {
-		userId := ctx.Keys["UserID"].(int)
-		domainBook, err = c.BookService.UserGetByID(bookID, userId)
+
+		domainBook, err = c.BookService.UserGetByID(bookID, authData.UserID)
 		if err != nil {
 			appError := domainError.NewAppError(err, domainError.ValidationError)
 			_ = ctx.Error(appError)

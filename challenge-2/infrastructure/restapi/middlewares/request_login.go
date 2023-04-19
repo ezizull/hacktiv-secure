@@ -5,10 +5,11 @@ import (
 	"fmt"
 	"net/http"
 
+	security "secure/challenge-2/application/security/jwt"
 	"secure/challenge-2/utils/lists"
 
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v5"
 	"github.com/spf13/viper"
 )
 
@@ -30,7 +31,7 @@ func AuthJWTMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		claims := jwt.MapClaims{}
+		claims := &security.Claims{}
 		_, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 			return signature, nil
 		})
@@ -41,15 +42,7 @@ func AuthJWTMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		if len(c.Keys) == 0 {
-			c.Keys = make(map[string]interface{})
-		}
-
-		fmt.Println("check ", c.Keys, claims["role"])
-		fmt.Println("check ", claims)
-
-		c.Keys["Role"] = claims["role"]
-		c.Keys["UserID"] = claims["user_id"]
+		c.Set("Auth", *claims)
 
 		c.Next()
 	}

@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/golang-jwt/jwt/v5"
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/spf13/viper"
 )
 
@@ -29,7 +29,7 @@ type Claims struct {
 	UserID int    `json:"user_id"`
 	Type   string `json:"type"`
 	Role   string `json:"role"`
-	jwt.RegisteredClaims
+	jwt.StandardClaims
 }
 
 // TokenTypeKeyName is a map that contains the key name of the JWT in config.json
@@ -79,9 +79,10 @@ func GenerateJWTToken(userID int, tokenType string, roleName string) (appToken *
 		UserID: userID,
 		Type:   tokenType,
 		Role:   roleName,
-		RegisteredClaims: jwt.RegisteredClaims{
+		StandardClaims: jwt.StandardClaims{
 			// In JWT, the expiry time is expressed as unix milliseconds
-			ExpiresAt: jwt.NewNumericDate(expirationTokenTime),
+			ExpiresAt: expirationTokenTime.Unix(),
+			IssuedAt:  nowTime.UTC().Unix(),
 		},
 	}
 	tokenWithClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, tokenClaims)
