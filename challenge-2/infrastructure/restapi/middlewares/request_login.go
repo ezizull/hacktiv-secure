@@ -51,20 +51,16 @@ func AuthJWTMiddleware() gin.HandlerFunc {
 // AuthRoleMiddleware is a function that validates the role of user
 func AuthRoleMiddleware(validRoles []string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if len(c.Keys) == 0 {
+		// Get your object from the context
+		authData := c.MustGet("Auth").(security.Claims)
+
+		if authData.Role == "" {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "You are not authorized"})
 			c.Abort()
 			return
 		}
 
-		roleVal := c.Keys["Role"].(string)
-		if roleVal == "" {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": "You are not authorized"})
-			c.Abort()
-			return
-		}
-
-		if !lists.Contains(validRoles, roleVal) {
+		if !lists.Contains(validRoles, authData.Role) {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "You are not authorized for this path"})
 			c.Abort()
 			return
