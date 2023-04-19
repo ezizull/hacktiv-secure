@@ -111,3 +111,15 @@ func MigratePostgre(inGormDB *gorm.DB) error {
 	}
 	return nil
 }
+
+func MigrateTestPostgre(inGormDB *gorm.DB) error {
+	tablesMigrate := []interface{}{
+		&bookStruct.TestBook{},
+	}
+
+	err := inGormDB.AutoMigrate(tablesMigrate...)
+	if err != nil {
+		return err
+	}
+	return nil
+}

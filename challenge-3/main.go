@@ -31,6 +31,7 @@ func main() {
 		panic(err)
 	}
 
+	// commands handler
 	cmd.Execute(postgresDB)
 
 	router.Use(errorsController.Handler)

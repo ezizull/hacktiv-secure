@@ -8,7 +8,8 @@ import (
 )
 
 var (
-	Postgres bool
+	Postgres     bool
+	TestPostgres bool
 )
 
 // PostgresCmd represents the postgres command
@@ -26,6 +27,15 @@ var PostgresCmd = &cobra.Command{
 			return
 		}
 
+		if TestPostgres {
+			err := postgres.MigrateTestPostgre(PostgresDB)
+			if err != nil {
+				_ = fmt.Errorf("fatal error in migrating postgres: %s", err)
+				panic(err)
+			}
+			return
+		}
+
 		cmd.Help()
 	},
 }
@@ -33,4 +43,7 @@ var PostgresCmd = &cobra.Command{
 func init() {
 	// migrating flag
 	PostgresCmd.PersistentFlags().BoolVarP(&Postgres, "migrate", "m", false, "perform database migration")
+
+	// testing migrate flag
+	PostgresCmd.PersistentFlags().BoolVarP(&TestPostgres, "test-migrate", "tm", false, "perform database migration")
 }
