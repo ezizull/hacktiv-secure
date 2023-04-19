@@ -11,12 +11,12 @@ import (
 func UserRoutes(router *gin.RouterGroup, controller *userController.Controller) {
 	routerAuth := router.Group("/user")
 
-	// user routes without middleware
+	// public
 	{
 		routerAuth.POST("", controller.NewUser)
 	}
 
-	// user routes using middleware
+	// authentication
 	routerAuth.Use(middlewares.AuthJWTMiddleware())
 	{
 		routerAuth.GET("/:id", controller.GetUsersByID)

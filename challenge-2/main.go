@@ -7,7 +7,6 @@ import (
 	"secure/challenge-2/cmd"
 	"secure/challenge-2/infrastructure/repository/postgres"
 	errorsController "secure/challenge-2/infrastructure/restapi/controllers/errors"
-	"secure/challenge-2/infrastructure/restapi/middlewares"
 	"strings"
 	"time"
 
@@ -34,7 +33,6 @@ func main() {
 
 	cmd.Execute(postgresDB)
 
-	router.Use(middlewares.GinBodyLogMiddleware)
 	router.Use(errorsController.Handler)
 
 	// postgres routes

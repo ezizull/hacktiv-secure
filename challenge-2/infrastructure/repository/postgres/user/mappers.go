@@ -14,7 +14,6 @@ func (user *User) toDomainMapper() *domainUser.User {
 		Email:        user.Email,
 		FirstName:    user.FirstName,
 		LastName:     user.LastName,
-		Status:       user.Status,
 		HashPassword: user.HashPassword,
 		RoleID:       user.RoleID,
 		CreatedAt:    user.CreatedAt,
@@ -30,12 +29,10 @@ func fromDomainMapper(user *domainUser.User) *User {
 		Email:        user.Email,
 		FirstName:    user.FirstName,
 		LastName:     user.LastName,
-		Status:       user.Status,
 		HashPassword: user.HashPassword,
 		RoleID:       user.RoleID,
-
-		CreatedAt: user.CreatedAt,
-		UpdatedAt: user.UpdatedAt,
+		CreatedAt:    user.CreatedAt,
+		UpdatedAt:    user.UpdatedAt,
 	}
 }
 
@@ -62,13 +59,15 @@ func (userRole *UserRole) toRoleDomainMapper() *domainRole.Role {
 // toDomainMapper function to convert userRole repo to userRole domain
 func (userRole *UserRole) toDomainMapper() *domainRole.User {
 	return &domainRole.User{
-		ID:        userRole.ID,
-		UserName:  userRole.UserName,
-		Email:     userRole.Email,
-		FirstName: userRole.FirstName,
-		LastName:  userRole.LastName,
-		Status:    userRole.Status,
-		RoleID:    userRole.RoleID,
-		Role:      *userRole.toRoleDomainMapper(),
+		ID:           userRole.ID,
+		UserName:     userRole.UserName,
+		Email:        userRole.Email,
+		HashPassword: userRole.HashPassword,
+		FirstName:    userRole.FirstName,
+		LastName:     userRole.LastName,
+		RoleID:       userRole.RoleID,
+		CreatedAt:    userRole.CreatedAt,
+		UpdatedAt:    userRole.UpdatedAt,
+		Role:         *userRole.toRoleDomainMapper(),
 	}
 }

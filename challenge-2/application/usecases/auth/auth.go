@@ -29,30 +29,30 @@ type Service struct {
 // Login implements the login use case
 func (s *Service) Login(user LoginUser) (*SecurityAuthenticatedUser, error) {
 	userMap := map[string]interface{}{"email": user.Email}
-	domainUser, err := s.UserRepository.GetOneByMap(userMap)
+	domainUserRole, err := s.UserRepository.GetWithRoleByMap(userMap)
 	if err != nil {
 		return &SecurityAuthenticatedUser{}, err
 	}
-	if domainUser.ID == 0 {
+	if domainUserRole.ID == 0 {
 		return &SecurityAuthenticatedUser{}, errorsDomain.NewAppError(errors.New("email or password does not match"), errorsDomain.NotAuthorized)
 	}
 
-	isAuthenticated := CheckPasswordHash(user.Password, domainUser.HashPassword)
+	isAuthenticated := CheckPasswordHash(user.Password, domainUserRole.HashPassword)
 	if !isAuthenticated {
 		err = errorsDomain.NewAppError(err, errorsDomain.NotAuthorized)
 		return &SecurityAuthenticatedUser{}, errorsDomain.NewAppError(errors.New("email or password does not match"), errorsDomain.NotAuthorized)
 	}
 
-	accessTokenClaims, err := jwt.GenerateJWTToken(domainUser.ID, "access")
+	accessTokenClaims, err := jwt.GenerateJWTToken(domainUserRole.ID, "access", domainUserRole.Role.Name)
 	if err != nil {
 		return &SecurityAuthenticatedUser{}, err
 	}
-	refreshTokenClaims, err := jwt.GenerateJWTToken(domainUser.ID, "refresh")
+	refreshTokenClaims, err := jwt.GenerateJWTToken(domainUserRole.ID, "refresh", domainUserRole.Role.Name)
 	if err != nil {
 		return &SecurityAuthenticatedUser{}, err
 	}
 
-	return secAuthUserMapper(domainUser, &Auth{
+	return secAuthUserRoleMapper(domainUserRole, &Auth{
 		AccessToken:               accessTokenClaims.Token,
 		RefreshToken:              refreshTokenClaims.Token,
 		ExpirationAccessDateTime:  accessTokenClaims.ExpirationTime,
@@ -68,20 +68,20 @@ func (s *Service) AccessTokenByRefreshToken(refreshToken string) (*SecurityAuthe
 	}
 
 	userMap := map[string]interface{}{"id": claimsMap["id"]}
-	domainUser, err := s.UserRepository.GetOneByMap(userMap)
+	domainUserRole, err := s.UserRepository.GetWithRoleByMap(userMap)
 	if err != nil {
 		return nil, err
 
 	}
 
-	accessTokenClaims, err := jwt.GenerateJWTToken(domainUser.ID, "access")
+	accessTokenClaims, err := jwt.GenerateJWTToken(domainUserRole.ID, "access", domainUserRole.Role.Name)
 	if err != nil {
 		return &SecurityAuthenticatedUser{}, err
 	}
 
 	var expTime = int64(claimsMap["exp"].(float64))
 
-	return secAuthUserMapper(domainUser, &Auth{
+	return secAuthUserRoleMapper(domainUserRole, &Auth{
 		AccessToken:               accessTokenClaims.Token,
 		ExpirationAccessDateTime:  accessTokenClaims.ExpirationTime,
 		RefreshToken:              refreshToken,

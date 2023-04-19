@@ -9,8 +9,7 @@ import (
 
 func userRoleDomainToResponseMapper(userRoleDomain *domainRole.User) (createUserRoleResponse *ResponseUserRole) {
 	createUserRoleResponse = &ResponseUserRole{ID: userRoleDomain.ID, UserName: userRoleDomain.UserName,
-		Email: userRoleDomain.Email, FirstName: userRoleDomain.FirstName, LastName: userRoleDomain.LastName,
-		Status: userRoleDomain.Status, Role: userRoleDomain.Role}
+		Email: userRoleDomain.Email, FirstName: userRoleDomain.FirstName, LastName: userRoleDomain.LastName, Role: userRoleDomain.Role}
 
 	return
 }
@@ -18,7 +17,7 @@ func userRoleDomainToResponseMapper(userRoleDomain *domainRole.User) (createUser
 func domainToResponseMapper(userDomain *userDomain.User) (createUserResponse *ResponseUser) {
 	createUserResponse = &ResponseUser{ID: userDomain.ID, UserName: userDomain.UserName,
 		Email: userDomain.Email, FirstName: userDomain.FirstName, LastName: userDomain.LastName,
-		Status: userDomain.Status, CreatedAt: userDomain.CreatedAt, UpdatedAt: userDomain.UpdatedAt}
+		CreatedAt: userDomain.CreatedAt, UpdatedAt: userDomain.UpdatedAt}
 
 	return
 }

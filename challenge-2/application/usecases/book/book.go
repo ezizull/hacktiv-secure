@@ -3,11 +3,13 @@ package book
 import (
 	bookDomain "secure/challenge-2/domain/book"
 	bookRepository "secure/challenge-2/infrastructure/repository/postgres/book"
+	userRepository "secure/challenge-2/infrastructure/repository/postgres/user"
 )
 
 // Service is a struct that contains the repository implementation for book use case
 type Service struct {
 	BookRepository bookRepository.Repository
+	UserRepository userRepository.Repository
 }
 
 // GetAll is a function that returns all medicines
@@ -29,9 +31,33 @@ func (s *Service) GetAll(page int64, limit int64) (*PaginationResultBook, error)
 	}, nil
 }
 
+// UserGetAll is a function that returns all medicines
+func (s *Service) UserGetAll(page int64, userId int, limit int64) (*PaginationResultBook, error) {
+
+	all, err := s.BookRepository.UserGetAll(page, userId, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	return &PaginationResultBook{
+		Data:       all.Data,
+		Total:      all.Total,
+		Limit:      all.Limit,
+		Current:    all.Current,
+		NextCursor: all.NextCursor,
+		PrevCursor: all.PrevCursor,
+		NumPages:   all.NumPages,
+	}, nil
+}
+
 // GetByID is a function that returns a book by id
 func (s *Service) GetByID(id int) (*bookDomain.Book, error) {
 	return s.BookRepository.GetByID(id)
+}
+
+// UserGetByID is a function that returns a book by id
+func (s *Service) UserGetByID(id int, userId int) (*bookDomain.Book, error) {
+	return s.BookRepository.UserGetByID(id, userId)
 }
 
 // Create is a function that creates a book

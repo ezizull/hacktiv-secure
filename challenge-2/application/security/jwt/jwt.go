@@ -26,8 +26,9 @@ type AppToken struct {
 
 // Claims is a struct that contains the claims of the JWT
 type Claims struct {
-	ID   int    `json:"id"`
-	Type string `json:"type"`
+	UserID int    `json:"id"`
+	Type   string `json:"type"`
+	Role   string `json:"role"`
 	jwt.RegisteredClaims
 }
 
@@ -44,7 +45,7 @@ var TokenTypeExpTime = map[string]string{
 }
 
 // GenerateJWTToken generates a JWT token (refresh or access)
-func GenerateJWTToken(userID int, tokenType string) (appToken *AppToken, err error) {
+func GenerateJWTToken(userID int, tokenType string, roleName string) (appToken *AppToken, err error) {
 	viper.SetConfigFile("config.json")
 	if err := viper.ReadInConfig(); err != nil {
 		_ = fmt.Errorf("fatal error in config file: %s", err.Error())
@@ -75,8 +76,9 @@ func GenerateJWTToken(userID int, tokenType string) (appToken *AppToken, err err
 	expirationTokenTime := nowTime.Add(tokenTimeUnix)
 
 	tokenClaims := &Claims{
-		ID:   userID,
-		Type: tokenType,
+		UserID: userID,
+		Type:   tokenType,
+		Role:   roleName,
 		RegisteredClaims: jwt.RegisteredClaims{
 			// In JWT, the expiry time is expressed as unix milliseconds
 			ExpiresAt: jwt.NewNumericDate(expirationTokenTime),

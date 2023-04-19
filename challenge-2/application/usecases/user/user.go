@@ -2,7 +2,7 @@
 package user
 
 import (
-	domainRole "secure/challenge-2/domain/role"
+	roleDomain "secure/challenge-2/domain/role"
 	userDomain "secure/challenge-2/domain/user"
 	roleRepository "secure/challenge-2/infrastructure/repository/postgres/role"
 	userRepository "secure/challenge-2/infrastructure/repository/postgres/user"
@@ -22,7 +22,7 @@ func (s *Service) GetAll() (*[]userDomain.User, error) {
 }
 
 // GetWithRole is a function that returns a user with role by id
-func (s *Service) GetWithRole(id int) (*domainRole.User, error) {
+func (s *Service) GetWithRole(id int) (*roleDomain.User, error) {
 	return s.UserRepository.GetWithRole(id)
 }
 
@@ -46,7 +46,6 @@ func (s *Service) Create(newUser NewUser) (*userDomain.User, error) {
 		return &userDomain.User{}, err
 	}
 	domain.HashPassword = string(hash)
-	domain.Status = true
 
 	return s.UserRepository.Create(domain)
 }

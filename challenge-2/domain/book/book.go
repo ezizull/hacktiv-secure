@@ -2,18 +2,16 @@ package book
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type Book struct {
 	ID          uint   `json:"id" gorm:"primary_key"`
 	Title       string `json:"title" example:"book title"`
-	Author      string `json:"author" example:"mr. author"`
+	UserID      int    `json:"user_id" gorm:"index"`
 	Description string `json:"description" example:"book description"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
-	DeletedAt   *gorm.DeletedAt
+	DeletedAt   time.Time
 }
 
 func (*Book) TableName() string {

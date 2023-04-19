@@ -11,7 +11,7 @@ import (
 type Book struct {
 	ID          uint      `json:"id" gorm:"primary_key"`
 	Title       string    `json:"title" example:"book title"`
-	Author      string    `json:"author" example:"mr. author"`
+	UserID      int       `json:"user_id" gorm:"index"`
 	Description string    `json:"description" example:"book description"`
 	CreatedAt   time.Time `json:"created_at,omitempty" example:"2021-02-24 20:19:39" gorm:"autoCreateTime:mili"`
 	UpdatedAt   time.Time `json:"updated_at,omitempty" example:"2021-02-24 20:19:39" gorm:"autoUpdateTime:mili"`

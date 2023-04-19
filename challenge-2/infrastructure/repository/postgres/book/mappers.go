@@ -6,7 +6,7 @@ func (book *Book) toDomainMapper() *domainBook.Book {
 	return &domainBook.Book{
 		ID:          book.ID,
 		Title:       book.Title,
-		Author:      book.Author,
+		UserID:      book.UserID,
 		Description: book.Description,
 		CreatedAt:   book.CreatedAt,
 	}
@@ -16,7 +16,7 @@ func fromDomainMapper(book *domainBook.Book) *Book {
 	return &Book{
 		ID:          book.ID,
 		Title:       book.Title,
-		Author:      book.Author,
+		UserID:      book.UserID,
 		Description: book.Description,
 		CreatedAt:   book.CreatedAt,
 	}

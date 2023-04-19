@@ -7,7 +7,7 @@ import (
 // NewBook is a struct that contains the data for a new book
 type NewBook struct {
 	Title       string `json:"title" example:"book title"`
-	Author      string `json:"author" example:"mr. author"`
+	UserID      int    `json:"user_id" gorm:"index"`
 	Description string `json:"description" example:"book description"`
 }
 

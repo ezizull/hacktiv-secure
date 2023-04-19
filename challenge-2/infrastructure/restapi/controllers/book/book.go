@@ -35,9 +35,12 @@ func (c *Controller) NewBook(ctx *gin.Context) {
 		_ = ctx.Error(appError)
 		return
 	}
+
+	userID := ctx.Keys["UserID"].(int)
+
 	newBook := useCaseBook.NewBook{
 		Title:       request.Title,
-		Author:      request.Author,
+		UserID:      userID,
 		Description: request.Description,
 	}
 
@@ -77,12 +80,26 @@ func (c *Controller) GetAllBooks(ctx *gin.Context) {
 		return
 	}
 
-	books, err := c.BookService.GetAll(page, limit)
-	if err != nil {
-		appError := domainError.NewAppErrorWithType(domainError.UnknownError)
-		_ = ctx.Error(appError)
-		return
+	var books *useCaseBook.PaginationResultBook
+	roleVal := ctx.Keys["Role"].(string)
+
+	if roleVal == "admin" {
+		books, err = c.BookService.GetAll(page, limit)
+		if err != nil {
+			appError := domainError.NewAppErrorWithType(domainError.UnknownError)
+			_ = ctx.Error(appError)
+			return
+		}
+	} else {
+		userId := ctx.Keys["UserID"].(int)
+		books, err = c.BookService.UserGetAll(page, userId, limit)
+		if err != nil {
+			appError := domainError.NewAppErrorWithType(domainError.UnknownError)
+			_ = ctx.Error(appError)
+			return
+		}
 	}
+
 	ctx.JSON(http.StatusOK, books)
 }
 
@@ -103,11 +120,24 @@ func (c *Controller) GetBookByID(ctx *gin.Context) {
 		return
 	}
 
-	domainBook, err := c.BookService.GetByID(bookID)
-	if err != nil {
-		appError := domainError.NewAppError(err, domainError.ValidationError)
-		_ = ctx.Error(appError)
-		return
+	var domainBook *domainBook.Book
+	roleVal := ctx.Keys["Role"].(string)
+
+	if roleVal == "admin" {
+		domainBook, err = c.BookService.GetByID(bookID)
+		if err != nil {
+			appError := domainError.NewAppError(err, domainError.ValidationError)
+			_ = ctx.Error(appError)
+			return
+		}
+	} else {
+		userId := ctx.Keys["UserID"].(int)
+		domainBook, err = c.BookService.UserGetByID(bookID, userId)
+		if err != nil {
+			appError := domainError.NewAppError(err, domainError.ValidationError)
+			_ = ctx.Error(appError)
+			return
+		}
 	}
 
 	ctx.JSON(http.StatusOK, domainBook)

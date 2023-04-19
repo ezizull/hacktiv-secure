@@ -9,7 +9,7 @@ import (
 func (n *NewBook) toDomainMapper() *domainBook.Book {
 	return &domainBook.Book{
 		Title:       n.Title,
-		Author:      n.Author,
+		UserID:      n.UserID,
 		Description: n.Description,
 	}
 }

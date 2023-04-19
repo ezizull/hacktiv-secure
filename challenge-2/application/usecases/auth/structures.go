@@ -1,7 +1,10 @@
 // Package auth provides the use case for authentication
 package auth
 
-import "time"
+import (
+	domainRole "secure/challenge-2/domain/role"
+	"time"
+)
 
 // LoginUser is a struct that contains the request body for the login user
 type LoginUser struct {
@@ -11,13 +14,13 @@ type LoginUser struct {
 
 // DataUserAuthenticated is a struct that contains the data for the authenticated user
 type DataUserAuthenticated struct {
+	ID        int    `json:"id" example:"123"`
 	UserName  string `json:"userName" example:"UserName" gorm:"unique"`
 	Email     string `json:"email" example:"some@mail.com" gorm:"unique"`
 	FirstName string `json:"firstName" example:"John"`
 	LastName  string `json:"lastName" example:"Doe"`
-	Status    bool   `json:"status" example:"1"`
 	RoleID    string `json:"role_id" example:"admin"`
-	ID        int    `json:"id" example:"123"`
+	Role      domainRole.Role
 }
 
 // DataSecurityAuthenticated is a struct that contains the security data for the authenticated user

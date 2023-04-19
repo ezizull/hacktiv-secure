@@ -64,6 +64,23 @@ func (r *Repository) GetOneByMap(userMap map[string]interface{}) (*domainUser.Us
 	return userRepository.toDomainMapper(), nil
 }
 
+// GetWithRoleByMap ... Fetch only one user with Role by Map values
+func (r *Repository) GetWithRoleByMap(userMap map[string]interface{}) (*domainRole.User, error) {
+	var userRole UserRole
+
+	err := r.DB.Preload("Role").Where(userMap).First(&userRole).Error
+	if err != nil {
+		switch err.Error() {
+		case gorm.ErrRecordNotFound.Error():
+			err = domainError.NewAppErrorWithType(domainError.NotFound)
+		default:
+			err = domainError.NewAppErrorWithType(domainError.UnknownError)
+		}
+	}
+
+	return userRole.toDomainMapper(), nil
+}
+
 // GetWithRole ... Fetch only one user with Role by ID
 func (r *Repository) GetWithRole(id int) (*domainRole.User, error) {
 	var userRole UserRole

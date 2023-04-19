@@ -10,7 +10,6 @@ type User struct {
 	Email        string
 	FirstName    string
 	LastName     string
-	Status       bool
 	RoleID       string
 	HashPassword string
 	CreatedAt    time.Time

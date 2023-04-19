@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"net/http"
 
+	security "secure/challenge-2/application/security/jwt"
+	"secure/challenge-2/utils/lists"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/spf13/viper"
@@ -28,13 +31,42 @@ func AuthJWTMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		claims := jwt.MapClaims{}
+		claims := security.Claims{}
 		_, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 			return signature, nil
 		})
 
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+			c.Abort()
+			return
+		}
+
+		c.Keys["Role"] = claims.Role
+		c.Keys["UserID"] = claims.ID
+
+		c.Next()
+	}
+}
+
+// AuthRoleMiddleware is a function that validates the role of user
+func AuthRoleMiddleware(validRoles []string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if len(c.Keys) == 0 {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "You are not authorized"})
+			c.Abort()
+			return
+		}
+
+		roleVal := c.Keys["Role"].(string)
+		if roleVal == "" {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "You are not authorized"})
+			c.Abort()
+			return
+		}
+
+		if !lists.Contains(validRoles, roleVal) {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "You are not authorized for this path"})
 			c.Abort()
 			return
 		}

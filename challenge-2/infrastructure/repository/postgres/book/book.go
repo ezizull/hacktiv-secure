@@ -50,6 +50,42 @@ func (r *Repository) GetAll(page int64, limit int64) (*PaginationResultBook, err
 	}, nil
 }
 
+// UserGetAll Fetch all book data
+func (r *Repository) UserGetAll(page int64, userId int, limit int64) (*PaginationResultBook, error) {
+	var books []Book
+	var total int64
+
+	err := r.DB.Model(&Book{}).Where("user_id = ?", userId).Count(&total).Error
+	if err != nil {
+		return &PaginationResultBook{}, err
+	}
+	offset := (page - 1) * limit
+	err = r.DB.Limit(int(limit)).Offset(int(offset)).Find(&books).Error
+
+	if err != nil {
+		return &PaginationResultBook{}, err
+	}
+
+	numPages := (total + limit - 1) / limit
+	var nextCursor, prevCursor uint
+	if page < numPages {
+		nextCursor = uint(page + 1)
+	}
+	if page > 1 {
+		prevCursor = uint(page - 1)
+	}
+
+	return &PaginationResultBook{
+		Data:       arrayToDomainMapper(&books),
+		Total:      total,
+		Limit:      limit,
+		Current:    page,
+		NextCursor: nextCursor,
+		PrevCursor: prevCursor,
+		NumPages:   numPages,
+	}, nil
+}
+
 // Create ... Insert New data
 func (r *Repository) Create(newBook *domainBook.Book) (createdBook *domainBook.Book, err error) {
 	book := fromDomainMapper(newBook)
@@ -80,6 +116,24 @@ func (r *Repository) Create(newBook *domainBook.Book) (createdBook *domainBook.B
 func (r *Repository) GetByID(id int) (*domainBook.Book, error) {
 	var book Book
 	err := r.DB.Where("id = ?", id).First(&book).Error
+
+	if err != nil {
+		switch err.Error() {
+		case gorm.ErrRecordNotFound.Error():
+			err = domainErrors.NewAppErrorWithType(domainErrors.NotFound)
+		default:
+			err = domainErrors.NewAppErrorWithType(domainErrors.UnknownError)
+		}
+		return &domainBook.Book{}, err
+	}
+
+	return book.toDomainMapper(), nil
+}
+
+// UserGetByID ... Fetch only one book by Id
+func (r *Repository) UserGetByID(id int, userId int) (*domainBook.Book, error) {
+	var book Book
+	err := r.DB.Where("id = ?", id).Where("user_id = ?", userId).First(&book).Error
 
 	if err != nil {
 		switch err.Error() {
