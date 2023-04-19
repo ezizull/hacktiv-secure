@@ -18,8 +18,8 @@ func (*Book) TableName() string {
 	return "books"
 }
 
-// Service is a interface that contains the methods for the book service
-type Service interface {
+// BookMocks is a interface that contains the methods for the book service
+type BookMocks interface {
 	Get(int) (*Book, error)
 	GetAll() ([]*Book, error)
 	Create(*Book) error

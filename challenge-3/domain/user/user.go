@@ -16,8 +16,8 @@ type User struct {
 	UpdatedAt    time.Time
 }
 
-// Service is the interface that provides user methods
-type Service interface {
+// UserMocks is the interface that provides user methods
+type UserMocks interface {
 	Get(int) (*User, error)
 	GetAll() ([]*User, error)
 	Create(*User) error
