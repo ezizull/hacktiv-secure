@@ -9,6 +9,7 @@ import (
 
 // Service is a struct that contains the repository implementation for book use case
 type Service struct {
+	bookTesting    bookRepository.BookTesting
 	BookRepository bookRepository.Repository
 	UserRepository userRepository.Repository
 }
@@ -75,7 +76,7 @@ func (s *Service) GetByMap(medicineMap map[string]interface{}) (*bookDomain.Book
 }
 
 // Delete is a function that deletes a book by id
-func (s *Service) Delete(id int) error {
+func (s *Service) Delete(id int) (err error) {
 	return s.BookRepository.Delete(id)
 }
 
