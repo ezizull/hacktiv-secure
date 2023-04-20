@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	bookDomain "secure/challenge-3/domain/book"
-	domainErrors "secure/challenge-3/domain/errors"
+	errorDomain "secure/challenge-3/domain/errors"
 
 	"gorm.io/gorm"
 )
@@ -94,16 +94,16 @@ func (r *Repository) Create(newBook *bookDomain.Book) (createdBook *bookDomain.B
 
 	if tx.Error != nil {
 		byteErr, _ := json.Marshal(tx.Error)
-		var newError domainErrors.GormErr
+		var newError errorDomain.GormErr
 		err = json.Unmarshal(byteErr, &newError)
 		if err != nil {
 			return
 		}
 		switch newError.Number {
 		case 1062:
-			err = domainErrors.NewAppErrorWithType(domainErrors.ResourceAlreadyExists)
+			err = errorDomain.NewAppErrorWithType(errorDomain.ResourceAlreadyExists)
 		default:
-			err = domainErrors.NewAppErrorWithType(domainErrors.UnknownError)
+			err = errorDomain.NewAppErrorWithType(errorDomain.UnknownError)
 		}
 		return
 	}
@@ -120,9 +120,9 @@ func (r *Repository) GetByID(id int) (*bookDomain.Book, error) {
 	if err != nil {
 		switch err.Error() {
 		case gorm.ErrRecordNotFound.Error():
-			err = domainErrors.NewAppErrorWithType(domainErrors.NotFound)
+			err = errorDomain.NewAppErrorWithType(errorDomain.NotFound)
 		default:
-			err = domainErrors.NewAppErrorWithType(domainErrors.UnknownError)
+			err = errorDomain.NewAppErrorWithType(errorDomain.UnknownError)
 		}
 		return &bookDomain.Book{}, err
 	}
@@ -138,9 +138,9 @@ func (r *Repository) UserGetByID(id int, userId int) (*bookDomain.Book, error) {
 	if err != nil {
 		switch err.Error() {
 		case gorm.ErrRecordNotFound.Error():
-			err = domainErrors.NewAppErrorWithType(domainErrors.NotFound)
+			err = errorDomain.NewAppErrorWithType(errorDomain.NotFound)
 		default:
-			err = domainErrors.NewAppErrorWithType(domainErrors.UnknownError)
+			err = errorDomain.NewAppErrorWithType(errorDomain.UnknownError)
 		}
 		return &bookDomain.Book{}, err
 	}
@@ -154,7 +154,7 @@ func (r *Repository) GetOneByMap(bookMap map[string]interface{}) (*bookDomain.Bo
 
 	err := r.DB.Where(bookMap).Limit(1).Find(&book).Error
 	if err != nil {
-		err = domainErrors.NewAppErrorWithType(domainErrors.UnknownError)
+		err = errorDomain.NewAppErrorWithType(errorDomain.UnknownError)
 		return nil, err
 	}
 	return book.toDomainMapper(), err
@@ -172,18 +172,18 @@ func (r *Repository) Update(id uint, bookMap map[string]interface{}) (*bookDomai
 	// err = config.DB.Save(book).Error
 	if err != nil {
 		byteErr, _ := json.Marshal(err)
-		var newError domainErrors.GormErr
+		var newError errorDomain.GormErr
 		err = json.Unmarshal(byteErr, &newError)
 		if err != nil {
 			return &bookDomain.Book{}, err
 		}
 		switch newError.Number {
 		case 1062:
-			err = domainErrors.NewAppErrorWithType(domainErrors.ResourceAlreadyExists)
+			err = errorDomain.NewAppErrorWithType(errorDomain.ResourceAlreadyExists)
 			return &bookDomain.Book{}, err
 
 		default:
-			err = domainErrors.NewAppErrorWithType(domainErrors.UnknownError)
+			err = errorDomain.NewAppErrorWithType(errorDomain.UnknownError)
 			return &bookDomain.Book{}, err
 		}
 	}
@@ -199,12 +199,12 @@ func (r *Repository) Delete(id int) (err error) {
 
 	log.Println("check ", tx)
 	if tx.Error != nil {
-		err = domainErrors.NewAppErrorWithType(domainErrors.UnknownError)
+		err = errorDomain.NewAppErrorWithType(errorDomain.UnknownError)
 		return
 	}
 
 	if tx.RowsAffected == 0 {
-		err = domainErrors.NewAppErrorWithType(domainErrors.NotFound)
+		err = errorDomain.NewAppErrorWithType(errorDomain.NotFound)
 	}
 
 	return

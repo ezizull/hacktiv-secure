@@ -4,7 +4,7 @@ package auth
 import (
 	"net/http"
 	useCaseAuth "secure/challenge-3/application/usecases/auth"
-	domainErrors "secure/challenge-3/domain/errors"
+	errorDomain "secure/challenge-3/domain/errors"
 	"secure/challenge-3/infrastructure/restapi/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -28,7 +28,7 @@ func (c *Controller) Login(ctx *gin.Context) {
 	var request LoginRequest
 
 	if err := controllers.BindJSON(ctx, &request); err != nil {
-		appError := domainErrors.NewAppError(err, domainErrors.ValidationError)
+		appError := errorDomain.NewAppError(err, errorDomain.ValidationError)
 		_ = ctx.Error(appError)
 		return
 	}
@@ -58,7 +58,7 @@ func (c *Controller) GetAccessTokenByRefreshToken(ctx *gin.Context) {
 	var request AccessTokenRequest
 
 	if err := controllers.BindJSON(ctx, &request); err != nil {
-		appError := domainErrors.NewAppError(err, domainErrors.ValidationError)
+		appError := errorDomain.NewAppError(err, errorDomain.ValidationError)
 		_ = ctx.Error(appError)
 		return
 	}

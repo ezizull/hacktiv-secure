@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	useCaseUser "secure/challenge-3/application/usecases/user"
-	domainErrors "secure/challenge-3/domain/errors"
+	errorDomain "secure/challenge-3/domain/errors"
 	"secure/challenge-3/infrastructure/restapi/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -34,14 +34,14 @@ func (c *Controller) NewUser(ctx *gin.Context) {
 	var request NewUserRequest
 
 	if err := controllers.BindJSON(ctx, &request); err != nil {
-		appError := domainErrors.NewAppError(err, domainErrors.ValidationError)
+		appError := errorDomain.NewAppError(err, errorDomain.ValidationError)
 		_ = ctx.Error(appError)
 		return
 	}
 
 	err := createValidation(request)
 	if err != nil {
-		appError := domainErrors.NewAppError(err, domainErrors.ValidationError)
+		appError := errorDomain.NewAppError(err, errorDomain.ValidationError)
 		_ = ctx.Error(appError)
 		return
 	}
@@ -67,7 +67,7 @@ func (c *Controller) NewUser(ctx *gin.Context) {
 func (c *Controller) GetAllUsers(ctx *gin.Context) {
 	users, err := c.UserService.GetAll()
 	if err != nil {
-		appError := domainErrors.NewAppErrorWithType(domainErrors.UnknownError)
+		appError := errorDomain.NewAppErrorWithType(errorDomain.UnknownError)
 		_ = ctx.Error(appError)
 		return
 	}
@@ -88,14 +88,14 @@ func (c *Controller) GetAllUsers(ctx *gin.Context) {
 func (c *Controller) GetUsersByID(ctx *gin.Context) {
 	userID, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		appError := domainErrors.NewAppError(errors.New("user id is invalid"), domainErrors.ValidationError)
+		appError := errorDomain.NewAppError(errors.New("user id is invalid"), errorDomain.ValidationError)
 		_ = ctx.Error(appError)
 		return
 	}
 
 	user, err := c.UserService.GetWithRole(userID)
 	if err != nil {
-		appError := domainErrors.NewAppError(err, domainErrors.ValidationError)
+		appError := errorDomain.NewAppError(err, errorDomain.ValidationError)
 		_ = ctx.Error(appError)
 		return
 	}
@@ -116,7 +116,7 @@ func (c *Controller) GetUsersByID(ctx *gin.Context) {
 func (c *Controller) UpdateUser(ctx *gin.Context) {
 	userID, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		appError := domainErrors.NewAppError(errors.New("param id is necessary in the url"), domainErrors.ValidationError)
+		appError := errorDomain.NewAppError(errors.New("param id is necessary in the url"), errorDomain.ValidationError)
 		_ = ctx.Error(appError)
 		return
 	}
@@ -124,7 +124,7 @@ func (c *Controller) UpdateUser(ctx *gin.Context) {
 
 	err = controllers.BindJSONMap(ctx, &requestMap)
 	if err != nil {
-		appError := domainErrors.NewAppError(err, domainErrors.ValidationError)
+		appError := errorDomain.NewAppError(err, errorDomain.ValidationError)
 		_ = ctx.Error(appError)
 		return
 	}
@@ -156,7 +156,7 @@ func (c *Controller) UpdateUser(ctx *gin.Context) {
 func (c *Controller) DeleteUser(ctx *gin.Context) {
 	userID, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		appError := domainErrors.NewAppError(errors.New("param id is necessary in the url"), domainErrors.ValidationError)
+		appError := errorDomain.NewAppError(errors.New("param id is necessary in the url"), errorDomain.ValidationError)
 		_ = ctx.Error(appError)
 		return
 	}

@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"regexp"
-	domainErrors "secure/challenge-3/domain/errors"
+	errorDomain "secure/challenge-3/domain/errors"
 	"strings"
 
 	"github.com/go-playground/validator/v10"
@@ -69,17 +69,17 @@ func updateValidation(request map[string]interface{}) (err error) {
 	})
 
 	if err != nil {
-		err = domainErrors.NewAppError(err, domainErrors.UnknownError)
+		err = errorDomain.NewAppError(err, errorDomain.UnknownError)
 		return
 	}
 
 	err = validate.Var(request, "update_validation")
 	if err != nil {
-		err = domainErrors.NewAppError(err, domainErrors.UnknownError)
+		err = errorDomain.NewAppError(err, errorDomain.UnknownError)
 		return
 	}
 	if errorsValidation != nil {
-		err = domainErrors.NewAppError(errors.New(strings.Join(errorsValidation, ", ")), domainErrors.ValidationError)
+		err = errorDomain.NewAppError(errors.New(strings.Join(errorsValidation, ", ")), errorDomain.ValidationError)
 	}
 	return
 }

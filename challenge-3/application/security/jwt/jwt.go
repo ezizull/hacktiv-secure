@@ -4,7 +4,7 @@ package jwt
 import (
 	"errors"
 	"fmt"
-	domainErrors "secure/challenge-3/domain/errors"
+	errorDomain "secure/challenge-3/domain/errors"
 	"strconv"
 	"time"
 
@@ -111,7 +111,7 @@ func GetClaimsAndVerifyToken(tokenString string, tokenType string) (claims jwt.M
 	JWTRefreshSecure := viper.GetString(TokenTypeKeyName[tokenType])
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, domainErrors.NewAppError(errors.New(fmt.Sprintf("unexpected signing method: %v", token.Header["alg"])), domainErrors.NotAuthenticated)
+			return nil, errorDomain.NewAppError(errors.New(fmt.Sprintf("unexpected signing method: %v", token.Header["alg"])), errorDomain.NotAuthenticated)
 		}
 
 		return []byte(JWTRefreshSecure), nil
@@ -119,12 +119,12 @@ func GetClaimsAndVerifyToken(tokenString string, tokenType string) (claims jwt.M
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		if claims["type"] != tokenType {
-			return nil, domainErrors.NewAppError(errors.New("invalid token type"), domainErrors.NotAuthenticated)
+			return nil, errorDomain.NewAppError(errors.New("invalid token type"), errorDomain.NotAuthenticated)
 		}
 
 		var timeExpire = claims["exp"].(float64)
 		if time.Now().Unix() > int64(timeExpire) {
-			return nil, domainErrors.NewAppError(errors.New("token expired"), domainErrors.NotAuthenticated)
+			return nil, errorDomain.NewAppError(errors.New("token expired"), errorDomain.NotAuthenticated)
 		}
 
 		return claims, nil

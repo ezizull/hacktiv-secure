@@ -4,7 +4,7 @@ package errors
 import (
 	"net/http"
 
-	domainErrors "secure/challenge-3/domain/errors"
+	errorDomain "secure/challenge-3/domain/errors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,26 +21,26 @@ func Handler(c *gin.Context) {
 	errs := c.Errors
 
 	if len(errs) > 0 {
-		err, ok := errs[0].Err.(*domainErrors.AppError)
+		err, ok := errs[0].Err.(*errorDomain.AppError)
 		if ok {
 			resp := MessagesResponse{Message: err.Error()}
 			switch err.Type {
-			case domainErrors.NotFound:
+			case errorDomain.NotFound:
 				c.JSON(http.StatusNotFound, resp)
 				return
-			case domainErrors.ValidationError:
+			case errorDomain.ValidationError:
 				c.JSON(http.StatusBadRequest, resp)
 				return
-			case domainErrors.ResourceAlreadyExists:
+			case errorDomain.ResourceAlreadyExists:
 				c.JSON(http.StatusConflict, resp)
 				return
-			case domainErrors.NotAuthenticated:
+			case errorDomain.NotAuthenticated:
 				c.JSON(http.StatusUnauthorized, resp)
 				return
-			case domainErrors.NotAuthorized:
+			case errorDomain.NotAuthorized:
 				c.JSON(http.StatusForbidden, resp)
 				return
-			case domainErrors.RepositoryError:
+			case errorDomain.RepositoryError:
 				c.JSON(http.StatusInternalServerError, MessagesResponse{Message: "We are working to improve the flow of this request."})
 				return
 			default:
