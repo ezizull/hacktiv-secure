@@ -1,6 +1,4 @@
 # output
+output: application/mocks
 case: underscore
-inpackage: true
-inpackage-suffix: true
 # with-expecter: True
-keeptree: False

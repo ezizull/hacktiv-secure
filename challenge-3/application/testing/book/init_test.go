@@ -3,7 +3,6 @@ package book
 import (
 	"testing"
 
-	// bookDomain "secure/challenge-3/domain/book"
 	bookUsecase "secure/challenge-3/application/usecases/book"
 	errorDomain "secure/challenge-3/domain/errors"
 	bookRepository "secure/challenge-3/infrastructure/repository/postgres/book"
@@ -73,5 +72,21 @@ func (its *IntTestSuite) TestGetByID() {
 
 	its.Nil(err)
 	its.Equal(1, actual.ID)
+
+}
+
+func (its *IntTestSuite) TestGetAll_Error() {
+	actual, err := its.bookCase.GetAll(0, 0)
+
+	its.EqualError(err, errorDomain.NotFound)
+	its.Equal(0, len(*actual.Data))
+
+}
+
+func (its *IntTestSuite) TestGetAll() {
+	actual, err := its.bookCase.GetAll(1, 20)
+
+	its.Nil(err)
+	its.GreaterOrEqual(1, len(*actual.Data))
 
 }
