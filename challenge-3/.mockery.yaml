@@ -1,2 +1,7 @@
+# init
 output: application/mocks
 case: underscore
+
+# source
+recursive: true
+name: mocks.go
