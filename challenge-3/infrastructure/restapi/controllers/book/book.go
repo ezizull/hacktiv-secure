@@ -5,7 +5,7 @@ import (
 	"net/http"
 	security "secure/challenge-3/application/security/jwt"
 	useCaseBook "secure/challenge-3/application/usecases/book"
-	domainBook "secure/challenge-3/domain/book"
+	bookDomain "secure/challenge-3/domain/book"
 	domainError "secure/challenge-3/domain/errors"
 	"secure/challenge-3/infrastructure/restapi/controllers"
 	"strconv"
@@ -24,7 +24,7 @@ type Controller struct {
 // @Accept  json
 // @Produce  json
 // @Param data body NewBookRequest true "body data"
-// @Success 200 {object} domainBook.Book
+// @Success 200 {object} bookDomain.Book
 // @Failure 400 {object} MessageResponse
 // @Failure 500 {object} MessageResponse
 // @Router /book [post]
@@ -46,13 +46,13 @@ func (c *Controller) NewBook(ctx *gin.Context) {
 		Description: request.Description,
 	}
 
-	domainBook, err := c.BookService.Create(&newBook)
+	bookDomain, err := c.BookService.Create(&newBook)
 	if err != nil {
 		_ = ctx.Error(err)
 		return
 	}
 
-	ctx.JSON(http.StatusOK, domainBook)
+	ctx.JSON(http.StatusOK, bookDomain)
 }
 
 // GetAllBooks godoc
@@ -61,7 +61,7 @@ func (c *Controller) NewBook(ctx *gin.Context) {
 // @Description Get all Books on the system
 // @Param   limit  query   string  true        "limit"
 // @Param   page  query   string  true        "page"
-// @Success 200 {object} []domainBook.PaginationResultBook
+// @Success 200 {object} []bookDomain.PaginationResultBook
 // @Failure 400 {object} MessageResponse
 // @Failure 500 {object} MessageResponse
 // @Router /book [get]
@@ -85,7 +85,7 @@ func (c *Controller) GetAllBooks(ctx *gin.Context) {
 		return
 	}
 
-	var books *domainBook.PaginationResultBook
+	var books *bookDomain.PaginationResultBook
 
 	if authData.Role == "admin" {
 		books, err = c.BookService.GetAll(page, limit)
@@ -111,7 +111,7 @@ func (c *Controller) GetAllBooks(ctx *gin.Context) {
 // @Summary Get books by ID
 // @Descriptioniption Get Books by ID on the system
 // @Param book_id path int true "id of book"
-// @Success 200 {object} domainBook.Book
+// @Success 200 {object} bookDomain.Book
 // @Failure 400 {object} MessageResponse
 // @Failure 500 {object} MessageResponse
 // @Router /book/{book_id} [get]
@@ -126,10 +126,10 @@ func (c *Controller) GetBookByID(ctx *gin.Context) {
 		return
 	}
 
-	var domainBook *domainBook.Book
+	var bookDomain *bookDomain.Book
 
 	if authData.Role == "admin" {
-		domainBook, err = c.BookService.GetByID(bookID)
+		bookDomain, err = c.BookService.GetByID(bookID)
 		if err != nil {
 			appError := domainError.NewAppError(err, domainError.ValidationError)
 			_ = ctx.Error(appError)
@@ -137,7 +137,7 @@ func (c *Controller) GetBookByID(ctx *gin.Context) {
 		}
 	} else {
 
-		domainBook, err = c.BookService.UserGetByID(bookID, authData.UserID)
+		bookDomain, err = c.BookService.UserGetByID(bookID, authData.UserID)
 		if err != nil {
 			appError := domainError.NewAppError(err, domainError.ValidationError)
 			_ = ctx.Error(appError)
@@ -145,7 +145,7 @@ func (c *Controller) GetBookByID(ctx *gin.Context) {
 		}
 	}
 
-	ctx.JSON(http.StatusOK, domainBook)
+	ctx.JSON(http.StatusOK, bookDomain)
 }
 
 // UpdateBook is the controller to update a book
@@ -171,7 +171,7 @@ func (c *Controller) UpdateBook(ctx *gin.Context) {
 		return
 	}
 
-	var book *domainBook.Book
+	var book *bookDomain.Book
 	book, err = c.BookService.Update(uint(bookID), requestMap)
 	if err != nil {
 		_ = ctx.Error(err)

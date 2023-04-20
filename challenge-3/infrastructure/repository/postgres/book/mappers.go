@@ -1,9 +1,9 @@
 package book
 
-import domainBook "secure/challenge-3/domain/book"
+import bookDomain "secure/challenge-3/domain/book"
 
-func (book *Book) toDomainMapper() *domainBook.Book {
-	return &domainBook.Book{
+func (book *Book) toDomainMapper() *bookDomain.Book {
+	return &bookDomain.Book{
 		ID:          book.ID,
 		Title:       book.Title,
 		UserID:      book.UserID,
@@ -12,7 +12,7 @@ func (book *Book) toDomainMapper() *domainBook.Book {
 	}
 }
 
-func fromDomainMapper(book *domainBook.Book) *Book {
+func fromDomainMapper(book *bookDomain.Book) *Book {
 	return &Book{
 		ID:          book.ID,
 		Title:       book.Title,
@@ -22,8 +22,8 @@ func fromDomainMapper(book *domainBook.Book) *Book {
 	}
 }
 
-func arrayToDomainMapper(books *[]Book) *[]domainBook.Book {
-	booksDomain := make([]domainBook.Book, len(*books))
+func arrayToDomainMapper(books *[]Book) *[]bookDomain.Book {
+	booksDomain := make([]bookDomain.Book, len(*books))
 	for i, book := range *books {
 		booksDomain[i] = *book.toDomainMapper()
 	}

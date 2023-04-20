@@ -31,7 +31,7 @@ func (uts *UnitTestSuite) SetupTest() {
 }
 
 func (uts *UnitTestSuite) TestGetAll() {
-	uts.bookMock.On("GetAll", 1, 20).Return([]*bookDomain.Book{}, nil)
+	uts.bookMock.On("GetAll", 1, 20).Return([]*bookDomain.PaginationResultBook{}, nil)
 
 	actual, err := uts.book.GetAll(1, 20)
 
