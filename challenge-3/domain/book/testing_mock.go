@@ -9,14 +9,6 @@ type MockTesting struct {
 	mock.Mock
 }
 
-type MockTesting_Expecter struct {
-	mock *mock.Mock
-}
-
-func (_m *MockTesting) EXPECT() *MockTesting_Expecter {
-	return &MockTesting_Expecter{mock: &_m.Mock}
-}
-
 // Create provides a mock function with given fields: _a0
 func (_m *MockTesting) Create(_a0 *Book) error {
 	ret := _m.Called(_a0)
@@ -31,34 +23,6 @@ func (_m *MockTesting) Create(_a0 *Book) error {
 	return r0
 }
 
-// MockTesting_Create_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Create'
-type MockTesting_Create_Call struct {
-	*mock.Call
-}
-
-// Create is a helper method to define mock.On call
-//   - _a0 *Book
-func (_e *MockTesting_Expecter) Create(_a0 interface{}) *MockTesting_Create_Call {
-	return &MockTesting_Create_Call{Call: _e.mock.On("Create", _a0)}
-}
-
-func (_c *MockTesting_Create_Call) Run(run func(_a0 *Book)) *MockTesting_Create_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(*Book))
-	})
-	return _c
-}
-
-func (_c *MockTesting_Create_Call) Return(_a0 error) *MockTesting_Create_Call {
-	_c.Call.Return(_a0)
-	return _c
-}
-
-func (_c *MockTesting_Create_Call) RunAndReturn(run func(*Book) error) *MockTesting_Create_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
 // Delete provides a mock function with given fields: _a0
 func (_m *MockTesting) Delete(_a0 int) error {
 	ret := _m.Called(_a0)
@@ -71,34 +35,6 @@ func (_m *MockTesting) Delete(_a0 int) error {
 	}
 
 	return r0
-}
-
-// MockTesting_Delete_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Delete'
-type MockTesting_Delete_Call struct {
-	*mock.Call
-}
-
-// Delete is a helper method to define mock.On call
-//   - _a0 int
-func (_e *MockTesting_Expecter) Delete(_a0 interface{}) *MockTesting_Delete_Call {
-	return &MockTesting_Delete_Call{Call: _e.mock.On("Delete", _a0)}
-}
-
-func (_c *MockTesting_Delete_Call) Run(run func(_a0 int)) *MockTesting_Delete_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(int))
-	})
-	return _c
-}
-
-func (_c *MockTesting_Delete_Call) Return(_a0 error) *MockTesting_Delete_Call {
-	_c.Call.Return(_a0)
-	return _c
-}
-
-func (_c *MockTesting_Delete_Call) RunAndReturn(run func(int) error) *MockTesting_Delete_Call {
-	_c.Call.Return(run)
-	return _c
 }
 
 // Get provides a mock function with given fields: _a0
@@ -127,34 +63,6 @@ func (_m *MockTesting) Get(_a0 int) (*Book, error) {
 	return r0, r1
 }
 
-// MockTesting_Get_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Get'
-type MockTesting_Get_Call struct {
-	*mock.Call
-}
-
-// Get is a helper method to define mock.On call
-//   - _a0 int
-func (_e *MockTesting_Expecter) Get(_a0 interface{}) *MockTesting_Get_Call {
-	return &MockTesting_Get_Call{Call: _e.mock.On("Get", _a0)}
-}
-
-func (_c *MockTesting_Get_Call) Run(run func(_a0 int)) *MockTesting_Get_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(int))
-	})
-	return _c
-}
-
-func (_c *MockTesting_Get_Call) Return(_a0 *Book, _a1 error) *MockTesting_Get_Call {
-	_c.Call.Return(_a0, _a1)
-	return _c
-}
-
-func (_c *MockTesting_Get_Call) RunAndReturn(run func(int) (*Book, error)) *MockTesting_Get_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
 // GetAll provides a mock function with given fields:
 func (_m *MockTesting) GetAll() ([]*Book, error) {
 	ret := _m.Called()
@@ -179,33 +87,6 @@ func (_m *MockTesting) GetAll() ([]*Book, error) {
 	}
 
 	return r0, r1
-}
-
-// MockTesting_GetAll_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetAll'
-type MockTesting_GetAll_Call struct {
-	*mock.Call
-}
-
-// GetAll is a helper method to define mock.On call
-func (_e *MockTesting_Expecter) GetAll() *MockTesting_GetAll_Call {
-	return &MockTesting_GetAll_Call{Call: _e.mock.On("GetAll")}
-}
-
-func (_c *MockTesting_GetAll_Call) Run(run func()) *MockTesting_GetAll_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run()
-	})
-	return _c
-}
-
-func (_c *MockTesting_GetAll_Call) Return(_a0 []*Book, _a1 error) *MockTesting_GetAll_Call {
-	_c.Call.Return(_a0, _a1)
-	return _c
-}
-
-func (_c *MockTesting_GetAll_Call) RunAndReturn(run func() ([]*Book, error)) *MockTesting_GetAll_Call {
-	_c.Call.Return(run)
-	return _c
 }
 
 // GetByID provides a mock function with given fields: _a0
@@ -234,34 +115,6 @@ func (_m *MockTesting) GetByID(_a0 int) (*Book, error) {
 	return r0, r1
 }
 
-// MockTesting_GetByID_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetByID'
-type MockTesting_GetByID_Call struct {
-	*mock.Call
-}
-
-// GetByID is a helper method to define mock.On call
-//   - _a0 int
-func (_e *MockTesting_Expecter) GetByID(_a0 interface{}) *MockTesting_GetByID_Call {
-	return &MockTesting_GetByID_Call{Call: _e.mock.On("GetByID", _a0)}
-}
-
-func (_c *MockTesting_GetByID_Call) Run(run func(_a0 int)) *MockTesting_GetByID_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(int))
-	})
-	return _c
-}
-
-func (_c *MockTesting_GetByID_Call) Return(_a0 *Book, _a1 error) *MockTesting_GetByID_Call {
-	_c.Call.Return(_a0, _a1)
-	return _c
-}
-
-func (_c *MockTesting_GetByID_Call) RunAndReturn(run func(int) (*Book, error)) *MockTesting_GetByID_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
 // GetByMap provides a mock function with given fields: _a0
 func (_m *MockTesting) GetByMap(_a0 map[string]interface{}) map[string]interface{} {
 	ret := _m.Called(_a0)
@@ -276,34 +129,6 @@ func (_m *MockTesting) GetByMap(_a0 map[string]interface{}) map[string]interface
 	}
 
 	return r0
-}
-
-// MockTesting_GetByMap_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetByMap'
-type MockTesting_GetByMap_Call struct {
-	*mock.Call
-}
-
-// GetByMap is a helper method to define mock.On call
-//   - _a0 map[string]interface{}
-func (_e *MockTesting_Expecter) GetByMap(_a0 interface{}) *MockTesting_GetByMap_Call {
-	return &MockTesting_GetByMap_Call{Call: _e.mock.On("GetByMap", _a0)}
-}
-
-func (_c *MockTesting_GetByMap_Call) Run(run func(_a0 map[string]interface{})) *MockTesting_GetByMap_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(map[string]interface{}))
-	})
-	return _c
-}
-
-func (_c *MockTesting_GetByMap_Call) Return(_a0 map[string]interface{}) *MockTesting_GetByMap_Call {
-	_c.Call.Return(_a0)
-	return _c
-}
-
-func (_c *MockTesting_GetByMap_Call) RunAndReturn(run func(map[string]interface{}) map[string]interface{}) *MockTesting_GetByMap_Call {
-	_c.Call.Return(run)
-	return _c
 }
 
 // Update provides a mock function with given fields: _a0, _a1
@@ -330,35 +155,6 @@ func (_m *MockTesting) Update(_a0 int, _a1 map[string]interface{}) (*Book, error
 	}
 
 	return r0, r1
-}
-
-// MockTesting_Update_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Update'
-type MockTesting_Update_Call struct {
-	*mock.Call
-}
-
-// Update is a helper method to define mock.On call
-//   - _a0 int
-//   - _a1 map[string]interface{}
-func (_e *MockTesting_Expecter) Update(_a0 interface{}, _a1 interface{}) *MockTesting_Update_Call {
-	return &MockTesting_Update_Call{Call: _e.mock.On("Update", _a0, _a1)}
-}
-
-func (_c *MockTesting_Update_Call) Run(run func(_a0 int, _a1 map[string]interface{})) *MockTesting_Update_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(int), args[1].(map[string]interface{}))
-	})
-	return _c
-}
-
-func (_c *MockTesting_Update_Call) Return(_a0 *Book, _a1 error) *MockTesting_Update_Call {
-	_c.Call.Return(_a0, _a1)
-	return _c
-}
-
-func (_c *MockTesting_Update_Call) RunAndReturn(run func(int, map[string]interface{}) (*Book, error)) *MockTesting_Update_Call {
-	_c.Call.Return(run)
-	return _c
 }
 
 type mockConstructorTestingTNewMockTesting interface {

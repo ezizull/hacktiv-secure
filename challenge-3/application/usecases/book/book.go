@@ -2,6 +2,7 @@ package book
 
 import (
 	bookDomain "secure/challenge-3/domain/book"
+
 	bookRepository "secure/challenge-3/infrastructure/repository/postgres/book"
 	userRepository "secure/challenge-3/infrastructure/repository/postgres/user"
 )
