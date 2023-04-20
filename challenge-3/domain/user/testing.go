@@ -1,7 +1,7 @@
 package user
 
-// UserMocks is the interface that provides user methods
-type UserMocks interface {
+/* Testing */
+type Testing interface {
 	Get(int) (*User, error)
 	GetAll() ([]*User, error)
 	Create(*User) error

@@ -18,8 +18,8 @@ func (*TestBook) TableName() string {
 	return "test_books"
 }
 
-// BookMocks is a interface that contains the methods for the book service
-type BookMocks interface {
+/* Testing */
+type Testing interface {
 	Get(int) (*Book, error)
 	GetAll() ([]*Book, error)
 	Create(*Book) error

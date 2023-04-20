@@ -1,3 +1,6 @@
-# init
-output: application/mocks
+# output
 case: underscore
+inpackage: true
+inpackage-suffix: true
+with-expecter: True
+keeptree: False
