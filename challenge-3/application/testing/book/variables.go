@@ -32,5 +32,5 @@ var (
 	createDatabase  = fmt.Sprintf("CREATE DATABASE %s", dbTestName)
 	deleteFromTable = fmt.Sprintf("DELETE FROM %s", dbTable)
 	dropTable       = fmt.Sprintf("DROP TABLE %s", dbTable)
-	dropaDatabase   = fmt.Sprintf("CREATE DATABASE %s", dbTestName)
+	dropaDatabase   = fmt.Sprintf("DROP DATABASE %s", dbTestName)
 )

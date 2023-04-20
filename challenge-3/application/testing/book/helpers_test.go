@@ -2,6 +2,7 @@ package book
 
 import (
 	domainBook "secure/challenge-3/domain/book"
+	"strconv"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -42,7 +43,8 @@ func seedTestTable(its *IntTestSuite, db *gorm.DB) {
 	its.T().Log("seeding test table")
 
 	for i := 1; i <= 2; i++ {
-		book := domainBook.Book{ID: uint(i), Title: "Tittle " + string(i), UserID: i, Description: "Description " + string(i)}
+		idStr := strconv.Itoa(i)
+		book := domainBook.Book{ID: uint(i), Title: "Tittle " + idStr, UserID: i, Description: "Description " + idStr}
 
 		tx := db.Create(&book)
 		if tx.Error != nil {
