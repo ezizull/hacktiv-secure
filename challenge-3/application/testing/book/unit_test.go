@@ -36,8 +36,8 @@ func (uts *UnitTestSuite) TestGetAll() {
 
 	actual, err := uts.book.GetAll(1, 20)
 
-	uts.Equal(0.0, actual)
-	uts.EqualError(err, "not enough data")
+	uts.GreaterOrEqual(1, len(*actual.Data))
+	uts.EqualError(err, errorDomain.NotFound)
 }
 
 func (uts *UnitTestSuite) TestGetAll_Error() {
@@ -47,7 +47,7 @@ func (uts *UnitTestSuite) TestGetAll_Error() {
 
 	actual, err := uts.book.GetAll(0, 0)
 
-	uts.Equal(0.0, actual)
+	uts.Equal(0, len(*actual.Data))
 	uts.Equal(expectedError, err)
 
 }

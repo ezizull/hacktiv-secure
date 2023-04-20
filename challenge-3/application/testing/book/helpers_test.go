@@ -1,15 +1,14 @@
 package book
 
 import (
-	bookDomain "secure/challenge-3/domain/book"
-	"strconv"
+	"fmt"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 )
 
-func setupDatabase(its *IntTestSuite, db *gorm.DB) {
+func setupDatabase(its *IntTestSuite, db *gorm.DB) *gorm.DB {
 	its.T().Log("setting up database")
 
 	tx := db.Exec(createDatabase)
@@ -29,24 +28,20 @@ func setupDatabase(its *IntTestSuite, db *gorm.DB) {
 		its.FailNowf("unable to connect to database", err.Error())
 	}
 
-	tablesMigrate := []interface{}{
-		&bookDomain.Book{},
+	tx = db.Exec(createTable)
+	if tx.Error != nil {
+		its.FailNowf("unable to create table", tx.Error.Error())
 	}
 
-	err = db.AutoMigrate(tablesMigrate...)
-	if err != nil {
-		its.FailNowf("unable to create table", err.Error())
-	}
+	return db
 }
 
 func seedTestTable(its *IntTestSuite, db *gorm.DB) {
 	its.T().Log("seeding test table")
 
 	for i := 1; i <= 2; i++ {
-		idStr := strconv.Itoa(i)
-		book := bookDomain.Book{ID: uint(i), Title: "Tittle " + idStr, UserID: i, Description: "Description " + idStr}
-
-		tx := db.Create(&book)
+		query := fmt.Sprintf("INSERT INTO books (id, title, user_id, description, created_at, updated_at, deleted_at) VALUES (%d, 'Book %d', %d, 'Description %d', NOW(), NOW(), NULL)", i, i, i, i)
+		tx := db.Exec(query)
 		if tx.Error != nil {
 			its.FailNowf("unable to seed table", tx.Error.Error())
 		}
@@ -70,18 +65,30 @@ func tearDownDatabase(its *IntTestSuite) {
 		its.FailNowf("unable to drop table", tx.Error.Error())
 	}
 
+	db, err := its.db.DB()
+	if err != nil {
+		its.FailNowf("unable to close database", err.Error())
+	}
+
+	err = db.Close()
+	if err != nil {
+		its.FailNowf("unable to close database", err.Error())
+	}
+
+	its.db, err = gorm.Open(postgres.Open(connection), &gorm.Config{
+		DisableForeignKeyConstraintWhenMigrating: true,
+		PrepareStmt:                              true,
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true,
+		},
+	})
+	if err != nil {
+		its.FailNowf("unable to connect to database", err.Error())
+	}
+
 	tx = its.db.Exec(dropaDatabase)
 	if tx.Error != nil {
 		its.FailNowf("unable to drop database", tx.Error.Error())
 	}
 
-	inDB, err := its.db.DB()
-	if err != nil {
-		its.FailNowf("unable to close database", err.Error())
-	}
-
-	err = inDB.Close()
-	if err != nil {
-		its.FailNowf("unable to close database", err.Error())
-	}
 }

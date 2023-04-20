@@ -6,35 +6,35 @@ import "errors"
 const (
 	// NotFound error indicates a missing / not found record
 	NotFound        = "NotFound"
-	notFoundMessage = "record not found"
+	NotFoundMessage = "record not found"
 
 	// ValidationError indicates an error in input validation
 	ValidationError        = "ValidationError"
-	validationErrorMessage = "validation error"
+	ValidationErrorMessage = "validation error"
 
 	// ResourceAlreadyExists indicates a duplicate / already existing record
 	ResourceAlreadyExists     = "ResourceAlreadyExists"
-	alreadyExistsErrorMessage = "resource already exists"
+	AlreadyExistsErrorMessage = "resource already exists"
 
 	// RepositoryError indicates a repository (e.g database) error
 	RepositoryError        = "RepositoryError"
-	repositoryErrorMessage = "error in repository operation"
+	RepositoryErrorMessage = "error in repository operation"
 
 	// NotAuthenticated indicates an authentication error
 	NotAuthenticated             = "NotAuthenticated"
-	notAuthenticatedErrorMessage = "not Authenticated"
+	NotAuthenticatedErrorMessage = "not Authenticated"
 
 	// TokenGeneratorError indicates an token generation error
 	TokenGeneratorError        = "TokenGeneratorError"
-	tokenGeneratorErrorMessage = "error in token generation"
+	TokenGeneratorErrorMessage = "error in token generation"
 
 	// NotAuthorized indicates an authorization error
 	NotAuthorized             = "NotAuthorized"
-	notAuthorizedErrorMessage = "not authorized"
+	NotAuthorizedErrorMessage = "not authorized"
 
 	// UnknownError indicates an error that the app cannot find the cause for
 	UnknownError        = "UnknownError"
-	unknownErrorMessage = "something went wrong"
+	UnknownErrorMessage = "something went wrong"
 )
 
 // AppError defines an application (domain) error
@@ -57,21 +57,21 @@ func NewAppErrorWithType(errType string) *AppError {
 
 	switch errType {
 	case NotFound:
-		err = errors.New(notFoundMessage)
+		err = errors.New(NotFoundMessage)
 	case ValidationError:
-		err = errors.New(validationErrorMessage)
+		err = errors.New(ValidationErrorMessage)
 	case ResourceAlreadyExists:
-		err = errors.New(alreadyExistsErrorMessage)
+		err = errors.New(AlreadyExistsErrorMessage)
 	case RepositoryError:
-		err = errors.New(repositoryErrorMessage)
+		err = errors.New(RepositoryErrorMessage)
 	case NotAuthenticated:
-		err = errors.New(notAuthenticatedErrorMessage)
+		err = errors.New(NotAuthenticatedErrorMessage)
 	case NotAuthorized:
-		err = errors.New(notAuthorizedErrorMessage)
+		err = errors.New(NotAuthorizedErrorMessage)
 	case TokenGeneratorError:
-		err = errors.New(tokenGeneratorErrorMessage)
+		err = errors.New(TokenGeneratorErrorMessage)
 	default:
-		err = errors.New(unknownErrorMessage)
+		err = errors.New(UnknownErrorMessage)
 	}
 
 	return &AppError{

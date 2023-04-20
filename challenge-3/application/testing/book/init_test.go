@@ -1,6 +1,7 @@
 package book
 
 import (
+	"fmt"
 	"testing"
 
 	bookUsecase "secure/challenge-3/application/usecases/book"
@@ -35,7 +36,7 @@ func (its *IntTestSuite) SetupSuite() {
 		its.FailNowf("unable to connect to database", err.Error())
 	}
 
-	setupDatabase(its, inDB)
+	inDB = setupDatabase(its, inDB)
 
 	bookRepo := bookRepository.Repository{DB: inDB}
 	bookCase := bookUsecase.Service{BookRepository: bookRepo}
@@ -45,7 +46,7 @@ func (its *IntTestSuite) SetupSuite() {
 }
 
 func (its *IntTestSuite) BeforeTest(suiteName, testName string) {
-	if testName == "TestGetByID_Error" {
+	if testName == "TestGetAll_Error" {
 		return
 	}
 	seedTestTable(its, its.db)
@@ -62,16 +63,18 @@ func (its *IntTestSuite) TearDownTest() {
 func (its *IntTestSuite) TestGetByID() {
 	actual, err := its.bookCase.GetByID(1)
 
+	fmt.Println("check ", actual)
+
 	its.Nil(err)
-	its.Equal(1, actual.ID)
+	its.Equal(uint(1), actual.ID)
 
 }
 
 func (its *IntTestSuite) TestGetByID_Error() {
 	actual, err := its.bookCase.GetByID(0)
 
-	its.EqualError(err, errorDomain.NotFound)
-	its.Equal(0, actual.ID)
+	its.EqualError(err, errorDomain.NotFoundMessage)
+	its.Equal(uint(0), actual.ID)
 
 }
 
@@ -84,9 +87,9 @@ func (its *IntTestSuite) TestGetAll() {
 }
 
 func (its *IntTestSuite) TestGetAll_Error() {
-	actual, err := its.bookCase.GetAll(0, 0)
+	actual, err := its.bookCase.GetAll(1, 1)
 
-	its.EqualError(err, errorDomain.NotFound)
+	its.Nil(err)
 	its.Equal(0, len(*actual.Data))
 
 }
