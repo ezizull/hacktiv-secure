@@ -15,19 +15,19 @@ type Repository struct {
 }
 
 // GetAll Fetch all book data
-func (r *Repository) GetAll(page int64, limit int64) (*PaginationResultBook, error) {
+func (r *Repository) GetAll(page int64, limit int64) (*domainBook.PaginationResultBook, error) {
 	var books []Book
 	var total int64
 
 	err := r.DB.Model(&Book{}).Count(&total).Error
 	if err != nil {
-		return &PaginationResultBook{}, err
+		return &domainBook.PaginationResultBook{}, err
 	}
 	offset := (page - 1) * limit
 	err = r.DB.Limit(int(limit)).Offset(int(offset)).Find(&books).Error
 
 	if err != nil {
-		return &PaginationResultBook{}, err
+		return &domainBook.PaginationResultBook{}, err
 	}
 
 	numPages := (total + limit - 1) / limit
@@ -39,7 +39,7 @@ func (r *Repository) GetAll(page int64, limit int64) (*PaginationResultBook, err
 		prevCursor = uint(page - 1)
 	}
 
-	return &PaginationResultBook{
+	return &domainBook.PaginationResultBook{
 		Data:       arrayToDomainMapper(&books),
 		Total:      total,
 		Limit:      limit,
@@ -51,19 +51,19 @@ func (r *Repository) GetAll(page int64, limit int64) (*PaginationResultBook, err
 }
 
 // UserGetAll Fetch all book data
-func (r *Repository) UserGetAll(page int64, userId int, limit int64) (*PaginationResultBook, error) {
+func (r *Repository) UserGetAll(page int64, userId int, limit int64) (*domainBook.PaginationResultBook, error) {
 	var books []Book
 	var total int64
 
 	err := r.DB.Model(&Book{}).Where("user_id = ?", userId).Count(&total).Error
 	if err != nil {
-		return &PaginationResultBook{}, err
+		return &domainBook.PaginationResultBook{}, err
 	}
 	offset := (page - 1) * limit
 	err = r.DB.Limit(int(limit)).Offset(int(offset)).Find(&books).Error
 
 	if err != nil {
-		return &PaginationResultBook{}, err
+		return &domainBook.PaginationResultBook{}, err
 	}
 
 	numPages := (total + limit - 1) / limit
@@ -75,7 +75,7 @@ func (r *Repository) UserGetAll(page int64, userId int, limit int64) (*Paginatio
 		prevCursor = uint(page - 1)
 	}
 
-	return &PaginationResultBook{
+	return &domainBook.PaginationResultBook{
 		Data:       arrayToDomainMapper(&books),
 		Total:      total,
 		Limit:      limit,

@@ -59,12 +59,7 @@ definitions:
     - description
     - title
     type: object
-  controllers.MessageResponse:
-    properties:
-      message:
-        type: string
-    type: object
-  secure_challenge-3_application_usecases_book.PaginationResultBook:
+  book.PaginationResultBook:
     properties:
       current:
         type: integer
@@ -82,6 +77,11 @@ definitions:
         type: integer
       total:
         type: integer
+    type: object
+  controllers.MessageResponse:
+    properties:
+      message:
+        type: string
     type: object
   secure_challenge-3_domain_book.Book:
     properties:
@@ -244,7 +244,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/secure_challenge-3_application_usecases_book.PaginationResultBook'
+              $ref: '#/definitions/book.PaginationResultBook'
             type: array
         "400":
           description: Bad Request

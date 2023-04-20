@@ -15,14 +15,14 @@ type Service struct {
 }
 
 // GetAll is a function that returns all medicines
-func (s *Service) GetAll(page int64, limit int64) (*PaginationResultBook, error) {
+func (s *Service) GetAll(page int64, limit int64) (*bookDomain.PaginationResultBook, error) {
 
 	all, err := s.BookRepository.GetAll(page, limit)
 	if err != nil {
 		return nil, err
 	}
 
-	return &PaginationResultBook{
+	return &bookDomain.PaginationResultBook{
 		Data:       all.Data,
 		Total:      all.Total,
 		Limit:      all.Limit,
@@ -34,14 +34,14 @@ func (s *Service) GetAll(page int64, limit int64) (*PaginationResultBook, error)
 }
 
 // UserGetAll is a function that returns all medicines
-func (s *Service) UserGetAll(page int64, userId int, limit int64) (*PaginationResultBook, error) {
+func (s *Service) UserGetAll(page int64, userId int, limit int64) (*bookDomain.PaginationResultBook, error) {
 
 	all, err := s.BookRepository.UserGetAll(page, userId, limit)
 	if err != nil {
 		return nil, err
 	}
 
-	return &PaginationResultBook{
+	return &bookDomain.PaginationResultBook{
 		Data:       all.Data,
 		Total:      all.Total,
 		Limit:      all.Limit,

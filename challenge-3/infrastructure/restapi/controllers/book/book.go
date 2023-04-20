@@ -61,7 +61,7 @@ func (c *Controller) NewBook(ctx *gin.Context) {
 // @Description Get all Books on the system
 // @Param   limit  query   string  true        "limit"
 // @Param   page  query   string  true        "page"
-// @Success 200 {object} []useCaseBook.PaginationResultBook
+// @Success 200 {object} []domainBook.PaginationResultBook
 // @Failure 400 {object} MessageResponse
 // @Failure 500 {object} MessageResponse
 // @Router /book [get]
@@ -85,7 +85,7 @@ func (c *Controller) GetAllBooks(ctx *gin.Context) {
 		return
 	}
 
-	var books *useCaseBook.PaginationResultBook
+	var books *domainBook.PaginationResultBook
 
 	if authData.Role == "admin" {
 		books, err = c.BookService.GetAll(page, limit)

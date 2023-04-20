@@ -125,7 +125,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/secure_challenge-3_application_usecases_book.PaginationResultBook"
+                                "$ref": "#/definitions/book.PaginationResultBook"
                             }
                         }
                     },
@@ -441,15 +441,7 @@ const docTemplate = `{
                 }
             }
         },
-        "controllers.MessageResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "secure_challenge-3_application_usecases_book.PaginationResultBook": {
+        "book.PaginationResultBook": {
             "type": "object",
             "properties": {
                 "current": {
@@ -475,6 +467,14 @@ const docTemplate = `{
                 },
                 "total": {
                     "type": "integer"
+                }
+            }
+        },
+        "controllers.MessageResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
                 }
             }
         },

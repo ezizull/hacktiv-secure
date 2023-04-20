@@ -4,9 +4,10 @@ import (
 	"testing"
 
 	"secure/challenge-3/application/mocks"
-	// bookUsecase "secure/challenge-3/application/usecases/book"
-	// bookDomain "secure/challenge-3/domain/book"
-	// errorDomain "secure/challenge-3/domain/errors"
+	bookUsecase "secure/challenge-3/application/usecases/book"
+
+	bookDomain "secure/challenge-3/domain/book"
+	errorDomain "secure/challenge-3/domain/errors"
 
 	"github.com/stretchr/testify/suite"
 )
@@ -29,14 +30,14 @@ func (uts *UnitTestSuite) SetupTest() {
 	uts.bookMock = &bookMock
 }
 
-// func (uts *UnitTestSuite) TestGetAll() {
-// 	uts.bookMock.On("List", mock.Anything).Return([]*bookDomain.Book{}, nil)
+func (uts *UnitTestSuite) TestGetAll() {
+	uts.bookMock.On("GetAll", 1, 20).Return([]*bookDomain.Book{}, nil)
 
-// 	actual, err := uts.book.GetAll(1, 20)
+	actual, err := uts.book.GetAll(1, 20)
 
-// 	uts.GreaterOrEqual(1, len(*actual.Data))
-// 	uts.EqualError(err, errorDomain.NotFound)
-// }
+	uts.GreaterOrEqual(1, len(*actual.Data))
+	uts.EqualError(err, errorDomain.NotFound)
+}
 
 // func (uts *UnitTestSuite) TestGetAll_Error() {
 // 	expectedError := errors.New(errorDomain.NotFound)

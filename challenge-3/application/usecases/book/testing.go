@@ -6,8 +6,8 @@ import (
 )
 
 type BookTesting interface {
-	GetAll(page int64, limit int64) (*PaginationResultBook, error)
-	UserGetAll(page int64, userId int, limit int64) (*PaginationResultBook, error)
+	GetAll(page int64, limit int64) (*bookDomain.PaginationResultBook, error)
+	UserGetAll(page int64, userId int, limit int64) (*bookDomain.PaginationResultBook, error)
 	GetByID(id int) (*bookDomain.Book, error)
 	UserGetByID(id int, userId int) (*bookDomain.Book, error)
 	Create(book *NewBook) (*bookDomain.Book, error)

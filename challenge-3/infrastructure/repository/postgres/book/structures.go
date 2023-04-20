@@ -1,7 +1,6 @@
 package book
 
 import (
-	domainBook "secure/challenge-3/domain/book"
 	"time"
 
 	"gorm.io/gorm"
@@ -21,15 +20,4 @@ type Book struct {
 // TableName overrides the table name used by User to `users`
 func (*Book) TableName() string {
 	return "books"
-}
-
-// PaginationResultBook is a struct that contains the pagination result for book
-type PaginationResultBook struct {
-	Data       *[]domainBook.Book
-	Total      int64
-	Limit      int64
-	Current    int64
-	NextCursor uint
-	PrevCursor uint
-	NumPages   int64
 }
