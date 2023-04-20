@@ -8,7 +8,7 @@ testing:
 	go test ./...
 
 mocking:
-	~/go/bin/mockery --config=.mockery.yaml
+	~/go/bin/mockery --all
 
 update:
 	~/go/bin/swag init
