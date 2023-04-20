@@ -1,7 +1,7 @@
 package book
 
 import (
-	domainBook "secure/challenge-3/domain/book"
+	bookDomain "secure/challenge-3/domain/book"
 	"strconv"
 
 	"gorm.io/driver/postgres"
@@ -30,7 +30,7 @@ func setupDatabase(its *IntTestSuite, db *gorm.DB) {
 	}
 
 	tablesMigrate := []interface{}{
-		&domainBook.Book{},
+		&bookDomain.Book{},
 	}
 
 	err = db.AutoMigrate(tablesMigrate...)
@@ -44,7 +44,7 @@ func seedTestTable(its *IntTestSuite, db *gorm.DB) {
 
 	for i := 1; i <= 2; i++ {
 		idStr := strconv.Itoa(i)
-		book := domainBook.Book{ID: uint(i), Title: "Tittle " + idStr, UserID: i, Description: "Description " + idStr}
+		book := bookDomain.Book{ID: uint(i), Title: "Tittle " + idStr, UserID: i, Description: "Description " + idStr}
 
 		tx := db.Create(&book)
 		if tx.Error != nil {

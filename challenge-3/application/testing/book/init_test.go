@@ -59,14 +59,6 @@ func (its *IntTestSuite) TearDownTest() {
 	cleanTable(its)
 }
 
-func (its *IntTestSuite) TestGetByID_Error() {
-	actual, err := its.bookCase.GetByID(0)
-
-	its.EqualError(err, errorDomain.NotFound)
-	its.Equal(0, actual.ID)
-
-}
-
 func (its *IntTestSuite) TestGetByID() {
 	actual, err := its.bookCase.GetByID(1)
 
@@ -75,11 +67,11 @@ func (its *IntTestSuite) TestGetByID() {
 
 }
 
-func (its *IntTestSuite) TestGetAll_Error() {
-	actual, err := its.bookCase.GetAll(0, 0)
+func (its *IntTestSuite) TestGetByID_Error() {
+	actual, err := its.bookCase.GetByID(0)
 
 	its.EqualError(err, errorDomain.NotFound)
-	its.Equal(0, len(*actual.Data))
+	its.Equal(0, actual.ID)
 
 }
 
@@ -88,5 +80,13 @@ func (its *IntTestSuite) TestGetAll() {
 
 	its.Nil(err)
 	its.GreaterOrEqual(1, len(*actual.Data))
+
+}
+
+func (its *IntTestSuite) TestGetAll_Error() {
+	actual, err := its.bookCase.GetAll(0, 0)
+
+	its.EqualError(err, errorDomain.NotFound)
+	its.Equal(0, len(*actual.Data))
 
 }
