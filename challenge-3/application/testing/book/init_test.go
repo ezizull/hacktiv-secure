@@ -1,7 +1,6 @@
 package book
 
 import (
-	"fmt"
 	"testing"
 
 	bookUsecase "secure/challenge-3/application/usecases/book"
@@ -63,8 +62,6 @@ func (its *IntTestSuite) TearDownTest() {
 func (its *IntTestSuite) TestGetByID() {
 	actual, err := its.bookCase.GetByID(1)
 
-	fmt.Println("check ", actual)
-
 	its.Nil(err)
 	its.Equal(uint(1), actual.ID)
 
@@ -82,7 +79,7 @@ func (its *IntTestSuite) TestGetAll() {
 	actual, err := its.bookCase.GetAll(1, 20)
 
 	its.Nil(err)
-	its.GreaterOrEqual(1, len(*actual.Data))
+	its.Greater(len(*actual.Data), 0)
 
 }
 
